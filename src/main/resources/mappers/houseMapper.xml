@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.buyhouse.domain.estate.repository.EstateDao">
+
+
+    <!-- 이름으로 조회 -->
+    <select id="getHouseListByName" parameterType="string" resultType="Houseinfo">
+        SELECT
+            kapt_code AS kaptCode,
+            kapt_name AS kaptName,
+            bjd_code AS bjdCode,
+            kapt_addr AS kaptAddr,
+            doro_juso AS doroJuso,
+            code_heat_nm AS codeHeatNm,
+            kapt_tarea AS kaptTarea,
+            kapt_top_floor AS kaptTopFloor,
+            kapt_dong_cnt AS kaptDongCnt,
+            kaptda_cnt AS kaptdaCnt,
+            kapt_bcompany AS kaptBcompany,
+            code_apt_nm AS codeAptNm,
+            priv_area AS privArea
+        FROM houseinfos
+        WHERE kapt_name LIKE CONCAT('%', #{kaptName}, '%')
+    </select>
+
+    <!-- 가격으로 조회 -->
+    <select id="getHouseListByPrice" parameterType="int" resultType="Houseinfo">
+        SELECT
+            kapt_code AS kaptCode,
+            kapt_name AS kaptName,
+            bjd_code AS bjdCode,
+            kapt_addr AS kaptAddr,
+            doro_juso AS doroJuso,
+            code_heat_nm AS codeHeatNm,
+            kapt_tarea AS kaptTarea,
+            kapt_top_floor AS kaptTopFloor,
+            kapt_dong_cnt AS kaptDongCnt,
+            kaptda_cnt AS kaptdaCnt,
+            kapt_bcompany AS kaptBcompany,
+            code_apt_nm AS codeAptNm,
+            priv_area AS privArea
+        FROM houseinfos
+        WHERE
+    </select>
+    <!-- 평형으로 조회 -->
+
+    <!-- 지역(동)으로 조회 -->
+
+    <!-- 위경도으로 조회 -->
+
+    <!-- 아파트 정보 상세 조회-->
+
+    <!-- 아파트 구매하기-->
+
+
+
+</mapper>

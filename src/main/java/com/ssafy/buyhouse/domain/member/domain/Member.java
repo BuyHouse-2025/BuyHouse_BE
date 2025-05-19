@@ -12,7 +12,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Memeber {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +39,7 @@ public class Memeber {
     private int pwdQuestion;
 
     @Column(name = "pwd_answer")
-    private int pwdAnswer;
+    private String pwdAnswer;
 
     @Column(name = "cash")
     private int cash;
@@ -48,7 +48,7 @@ public class Memeber {
     private Role role;
 
     @Builder
-    public Memeber(String id, String password, String email, String name, String phoneNumber, int pwdAnswer, Role role) {
+    public Member(String id, String password, String email, String name, String phoneNumber, String pwdAnswer, Role role) {
         this.id = id;
         this.password = password;
         this.email = email;
