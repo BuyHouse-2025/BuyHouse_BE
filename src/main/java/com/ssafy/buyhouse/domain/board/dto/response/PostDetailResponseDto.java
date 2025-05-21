@@ -1,26 +1,28 @@
 package com.ssafy.buyhouse.domain.board.dto.response;
 
-
 import com.ssafy.buyhouse.domain.board.domain.Board;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostResponseDto {
+public class PostDetailResponseDto {
 
     private String title;
-    private String name;
+    private String content;
+    private String name; // member 넣으면 String으로
     private String creatTime;
 
-    public static PostResponseDto from(Board board) {
-        return PostResponseDto.builder()
+    public static PostDetailResponseDto from(Board board) {
+        return PostDetailResponseDto.builder()
                 .title(board.getTitle())
+                .content(board.getContent())
+                //  .name(board.getmember().getname())
+                .name(board.getMember())
                 .creatTime(board.getCreatTime())
                 .build();
+
     }
 }

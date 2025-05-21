@@ -1,14 +1,15 @@
 package com.ssafy.buyhouse.domain.board.controller;
 
-import com.ssafy.buyhouse.domain.board.domain.Board;
-
 import com.ssafy.buyhouse.domain.board.dto.request.PostRequestDto;
-import com.ssafy.buyhouse.domain.board.dto.response.PostListResponseDto;
+import com.ssafy.buyhouse.domain.board.dto.response.PostDetailResponseDto;
 import com.ssafy.buyhouse.domain.board.dto.response.PostResponseDto;
 import com.ssafy.buyhouse.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,26 +21,27 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    // 전체 게시물 페이지
-//    @GetMapping
-//    public ResponseEntity<List<PostListResponseDto>> listPosts() {
-//        List<PostListResponseDto> posts = boardService.findAll();
-//        return ResponseEntity.ok(posts);
-//    }
+    // 전체 게시물 페이지 페이징
+    @GetMapping
+    public ResponseEntity<Page<PostResponseDto>> getPostAll(
+            @PageableDefault(sort = "id", direction = Sort.Direction.DESC)
+            Pageable pageable) {
+        return ResponseEntity.ok(boardService.findAll(pageable));
+    }
 
     // 검색 게시물 보기
-//    @GetMapping
-//    public ResponseEntity<Board> getPost(@PathVariable Integer id) {
-//        Board post = boardService.findById(id);
-//        return ResponseEntity.ok(post);
-//    }
+    @GetMapping("/search")
+    public ResponseEntity<List<PostResponseDto>> getSearchPost(@RequestParam("keyword") String keyword) {
+        List<PostResponseDto> results = boardService.searchPost(keyword);
+        return ResponseEntity.ok().body(results);
+    }
 
-    // 단일 게시물 보기
+    // 단일 게시물 상세보기
     @GetMapping("/{id}" )
-    public ResponseEntity<PostResponseDto> getPost(@PathVariable long id) {
-        PostResponseDto postResponseDto = boardService.findById(id);
+    public ResponseEntity<PostDetailResponseDto> getPost(@PathVariable long id) {
+        PostDetailResponseDto postDetailResponseDto = boardService.findById(id);
         System.out.println("GET 요청 받음");
-        return ResponseEntity.ok().body(postResponseDto);
+        return ResponseEntity.ok().body(postDetailResponseDto);
     }
 
     // 게시물 작성

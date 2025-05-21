@@ -3,16 +3,19 @@ package com.ssafy.buyhouse.domain.board.service;
 
 import com.ssafy.buyhouse.domain.board.domain.Board;
 import com.ssafy.buyhouse.domain.board.dto.request.PostRequestDto;
-import com.ssafy.buyhouse.domain.board.dto.request.PostRequestDto;
-import com.ssafy.buyhouse.domain.board.dto.response.PostListResponseDto;
+import com.ssafy.buyhouse.domain.board.dto.response.PostDetailResponseDto;
 import com.ssafy.buyhouse.domain.board.dto.response.PostResponseDto;
 import com.ssafy.buyhouse.domain.board.repository.BoardRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,20 +24,40 @@ public class BoardService {
     public final BoardRepository boardRepository;
 
     // 전체게시물 보기
-//    public List<PostListResponseDto> findAll() {
-//        List<PostListResponseDto> posts = boardRepository.findAll();
-//        return posts;
-//    }
+    public Page<PostResponseDto> findAll(Pageable pageable) {
 
-    // 단일 게시물 보기
-    public PostResponseDto findById(long id) {
+        Page<Board> boards = boardRepository.findAll(pageable);
+
+        // board를 response객체로 변환
+        Page<PostResponseDto> postResponseDtos = boards.map(board ->
+                PostResponseDto.builder()
+                        .title(board.getTitle())
+                        .name(board.getMember()) // 맴버넣으면 board.getMember().getName()
+                        .creatTime(board.creatTime)
+                        .build()
+        );
+        return postResponseDtos;
+    }
+
+    // 검색 게시물 보기
+    public List<PostResponseDto> searchPost(String keyword) {
+        List<Board> boards = boardRepository.findByTitleContaining(keyword);
+
+        // board를 response객체로 변환
+        return boards.stream().map(PostResponseDto::from)
+                .collect(Collectors.toList());
+    }
+
+    // 단일 게시물 상세 보기
+    public PostDetailResponseDto findById(long id) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 게시물입니다. id=" + id));
 
-        return PostResponseDto.from(board);
+        return PostDetailResponseDto.from(board);
     }
 
     // 게시물 작성
+    @Transactional
     public String save(PostRequestDto postRequestDto) { // Member memeber
         Board board = postRequestDto.toEntity();
         // board.setMember(member);

@@ -32,7 +32,7 @@ public class Board {
 //    @ManyToOne(fetch = FetchType.LAZY)
     // 회원 가입 후 변경
     @Column
-    public int member;
+    public String member;
 
 
 }
