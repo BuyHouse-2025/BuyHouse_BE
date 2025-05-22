@@ -21,7 +21,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class BoardService {
-    public final BoardRepository boardRepository;
+
+    private final BoardRepository boardRepository;
 
     // 전체게시물 보기
     public Page<PostResponseDto> findAll(Pageable pageable) {

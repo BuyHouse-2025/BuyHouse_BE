@@ -40,7 +40,6 @@ public class BoardController {
     @GetMapping("/{id}" )
     public ResponseEntity<PostDetailResponseDto> getPost(@PathVariable long id) {
         PostDetailResponseDto postDetailResponseDto = boardService.findById(id);
-        System.out.println("GET 요청 받음");
         return ResponseEntity.ok().body(postDetailResponseDto);
     }
 
@@ -64,7 +63,6 @@ public class BoardController {
     // 게시물 삭제
     @DeleteMapping("{id}")
     public ResponseEntity<?> deletePost(@PathVariable long id) {
-
         String result = boardService.delete(id);
         return ResponseEntity.ok().body(result);
     }
