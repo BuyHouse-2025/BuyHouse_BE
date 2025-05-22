@@ -1,5 +1,7 @@
 package com.ssafy.buyhouse.domain.member.controller;
 
+import com.ssafy.buyhouse.domain.auth.annotation.LoginUser;
+import com.ssafy.buyhouse.domain.member.domain.Member;
 import com.ssafy.buyhouse.domain.member.dto.reqeust.MemberCreateRequest;
 import com.ssafy.buyhouse.domain.member.dto.reqeust.MemberUpdateRequest;
 import com.ssafy.buyhouse.domain.member.service.MemberService;
@@ -17,7 +19,7 @@ public class MemberController {
 
     //회원정보 수정
     @PutMapping
-    public ResponseEntity<?> updateMember(@RequestBody MemberUpdateRequest memberUpdateRequest, BindingResult bindingResult){
+    public ResponseEntity<?> updateMember(@LoginUser Member member, @RequestBody MemberUpdateRequest memberUpdateRequest, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
 
         }
@@ -29,7 +31,7 @@ public class MemberController {
 
         }
 
-        memberService.updateMember(memberUpdateRequest);
+        memberService.updateMember(memberUpdateRequest, member);
 
         return ResponseEntity.ok().body(null);
     }

@@ -1,6 +1,5 @@
 package com.ssafy.buyhouse.domain.member.dto.reqeust;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 import java.util.Date;
@@ -18,7 +17,7 @@ public record MemberUpdateRequest (
     @Pattern(regexp = "(01[016789])(\\d{3,4})(\\d{4})", message = "올바른 휴대폰 번호를 입력해주세요.")
     String phoneNumber,
 
-    int pwdQuestion,
+    Integer pwdQuestion,
     String pwdAnswer
 
 ){}

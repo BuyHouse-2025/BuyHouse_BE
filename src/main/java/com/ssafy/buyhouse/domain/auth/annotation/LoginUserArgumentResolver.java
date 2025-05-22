@@ -35,6 +35,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
         if(accessToken == null) throw new AuthenticationException("인증에 실패하였습니다.");
         String claims = TokenProvider.getClaims(TokenProvider.getTokenFromHeader(accessToken));
         if(claims == null) throw new AuthenticationException("인증에 실패하였습니다.");
-        return memberService.findMemberById(Integer.valueOf(claims));
+        return memberService.findMemberById(String.valueOf(claims));
     }
 }

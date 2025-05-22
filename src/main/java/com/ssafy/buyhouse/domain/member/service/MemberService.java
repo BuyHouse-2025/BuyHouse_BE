@@ -32,11 +32,29 @@ public class MemberService {
         return memberRepository.existsMemberByEmail(email);
     }
 
+    @Transactional
     public void updateMember(MemberUpdateRequest memberUpdateRequest, Member member) {
-
+        if(memberUpdateRequest.email() != null){
+            member.setEmail(memberUpdateRequest.email());
+        }
+        if(memberUpdateRequest.birthday() != null){
+            member.setBirthDate(memberUpdateRequest.birthday());
+        }
+        if(memberUpdateRequest.name() != null){
+            member.setName(memberUpdateRequest.name());
+        }
+        if(memberUpdateRequest.phoneNumber() != null){
+            member.setPhoneNumber(memberUpdateRequest.phoneNumber());
+        }
+        if(memberUpdateRequest.pwdQuestion() != null){
+            member.setPwdQuestion(memberUpdateRequest.pwdQuestion());
+        }
+        if(memberUpdateRequest.pwdAnswer() != null){
+            member.setPwdAnswer(memberUpdateRequest.pwdAnswer());
+        }
     }
 
-    public Member findMemberById(Integer integer) {
-        return null;
+    public Member findMemberById(String id) {
+        return memberRepository.findById(id).orElseThrow();
     }
 }

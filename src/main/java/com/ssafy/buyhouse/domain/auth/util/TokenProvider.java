@@ -55,7 +55,7 @@ public class TokenProvider {
         String tokenFromHeader = getTokenFromHeader(token);
         String claims = getClaims(tokenFromHeader);
         if(claims == null) throw new AuthenticationException("토큰값이 잘못되었습니다");
-        Member member = memberService.findMemberById(Integer.valueOf(claims));
+        Member member = memberService.findMemberById(String.valueOf(claims));
 
         PrincipalDetail principalDetail = new PrincipalDetail(member);
         return new UsernamePasswordAuthenticationToken(principalDetail, "", principalDetail.getAuthorities());

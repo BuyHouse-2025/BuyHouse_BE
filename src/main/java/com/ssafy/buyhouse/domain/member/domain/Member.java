@@ -31,7 +31,7 @@ public class Member {
     @Column(name = "phone_number")
     private String phoneNumber;
     @Column(name = "pwd_question")
-    private int pwdQuestion;
+    private Integer pwdQuestion;
     @Column(name = "pwd_answer")
     private String pwdAnswer;
     @Column
