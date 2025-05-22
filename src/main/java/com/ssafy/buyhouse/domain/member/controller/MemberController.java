@@ -1,25 +1,85 @@
 package com.ssafy.buyhouse.domain.member.controller;
 
 import com.ssafy.buyhouse.domain.member.dto.reqeust.MemberCreateRequest;
+import com.ssafy.buyhouse.domain.member.dto.reqeust.MemberUpdateRequest;
 import com.ssafy.buyhouse.domain.member.service.MemberService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class MemberController {
     private final MemberService memberService;
 
+    //회원정보 수정
+    @PutMapping
+    public ResponseEntity<?> updateMember(@RequestBody MemberUpdateRequest memberUpdateRequest, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
 
-    // 회원가입 정보저장
-    @PostMapping("/save")
-    public ResponseEntity<?> postMember(@RequestBody MemberCreateRequest MemberCreateRequest) {
-        String result = memberService.registerMember(MemberCreateRequest);
-        return ResponseEntity.ok().body(result);
+        }
+
+        try{
+            checkUpdateDuplicated(memberUpdateRequest);
+        }
+        catch (IllegalArgumentException e){
+
+        }
+
+        memberService.updateMember(memberUpdateRequest);
+
+        return ResponseEntity.ok().body(null);
     }
+
+    //회원 탈퇴
+
+    //아이디 찾기
+
+    //비밀번호 찾기
+
+    // 회원가입
+    @PostMapping
+    public ResponseEntity<Void> registerMember(@Valid @RequestBody MemberCreateRequest memberCreateRequest, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+
+        }
+
+        try{
+            checkCreateDuplicated(memberCreateRequest);
+        }
+        catch (IllegalArgumentException e){
+
+        }
+
+
+        memberService.registerMember(memberCreateRequest);
+
+        return ResponseEntity.ok().body(null);
+    }
+
+    private void checkCreateDuplicated(MemberCreateRequest memberCreateRequest) {
+        if(!memberService.isIdDuplicated(memberCreateRequest.id())){
+            throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+        }
+        if(memberService.isEmailDuplicated(memberCreateRequest.email())){
+            throw new IllegalArgumentException("이미 등록된 이메일입니다.");
+        }
+        if(memberService.isNameDuplicated(memberCreateRequest.name())){
+            throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
+        }
+    }
+
+    private void checkUpdateDuplicated(MemberUpdateRequest memberUpdateRequest) {
+        if(memberService.isEmailDuplicated(memberUpdateRequest.email())){
+            throw new IllegalArgumentException("이미 등록된 이메일입니다.");
+        }
+        if(memberService.isNameDuplicated(memberUpdateRequest.name())){
+            throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
+        }
+    }
+
+
 }
