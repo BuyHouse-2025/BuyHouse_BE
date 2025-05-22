@@ -30,44 +30,38 @@ public class HouseDetailInfo {
     private BigDecimal representativeArea;
 
     @Column
-    private String floorAreaRatio;
+    private int floorAreaRatio;
 
-    @Column
-    private String minDeal;
+    @Column(name = "PARKING")
+    private int parking;
 
-    @Column
-    private String maxDeal;
+    @Column(name = "BUS")
+    private int bus;
 
-    @Column
-    private String PARKING;
+    @Column(name = "METRO")
+    private int metro;
 
-    @Column
-    private String BUS;
+    @Column(name = "HOSPITAL")
+    private int hospital;
 
-    @Column
-    private String METRO;
+    @Column(name = "MART")
+    private int mart;
 
-    @Column
-    private int HOSPITAL;
+    @Column(name = "CONVENIENCE")
+    private int convenience;
 
-    @Column
-    private String MART;
+    @Column(name = "INFANT")
+    private int infant;
 
-    @Column
-    private String CONVENIENCE;
-
-    @Column
-    private String INFANT;
-
-    @Column
-    private String PRESCHOOL;
+    @Column(name = "PRESCHOOL")
+    private int preschool;
 
     @Column(name = "PRI_SCHOOL")
-    private String PRISCHOOL;
+    private int priSchool;
 
     @Column(name = "PUB_SCHOOL")
-    private String PUBSCHOOL;
+    private int pubSchool;
 
     @Column
-    private Integer predictPrice;
+    private int predictPrice;
 }

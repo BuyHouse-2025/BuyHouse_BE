@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -60,5 +63,8 @@ public class HouseInfo {
     @OneToOne(cascade = ALL, fetch = LAZY, orphanRemoval = true)
     @PrimaryKeyJoinColumn(name = "apt_seq")
     private HouseDetailInfo detailInfo;
+
+    @OneToMany(mappedBy = "houseInfo", fetch = FetchType.LAZY)
+    private List<HouseDeal> deals = new ArrayList<>();
 
 }

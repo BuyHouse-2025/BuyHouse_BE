@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SearchRequestDto {
-
     private String aptNm;
     private Integer minPrice;
     private Integer maxPrice;
