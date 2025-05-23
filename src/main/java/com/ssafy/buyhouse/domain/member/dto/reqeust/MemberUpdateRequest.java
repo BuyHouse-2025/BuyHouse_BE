@@ -1,8 +1,10 @@
 package com.ssafy.buyhouse.domain.member.dto.reqeust;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Pattern;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 
 public record MemberUpdateRequest (
 
@@ -12,7 +14,8 @@ public record MemberUpdateRequest (
     @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$", message = "닉네임은 특수문자를 제외한 2~10자리여야 합니다.")
     String name,
 
-    Date birthday,
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    LocalDate birthday,
 
     @Pattern(regexp = "(01[016789])(\\d{3,4})(\\d{4})", message = "올바른 휴대폰 번호를 입력해주세요.")
     String phoneNumber,

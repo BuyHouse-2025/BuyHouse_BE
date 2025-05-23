@@ -1,9 +1,12 @@
 package com.ssafy.buyhouse.domain.member.dto.reqeust;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public record MemberFindPwdRequest(
@@ -21,7 +24,8 @@ public record MemberFindPwdRequest(
         String name,
 
         @NotBlank(message = "생년월일을 입력해주세요.")
-        Date birthday,
+        @JsonFormat(pattern = "yyyy-MM-dd")
+        LocalDate birthday,
 
         @NotBlank(message = "전화번호를 입력해주세요.")
         @Pattern(regexp = "(01[016789])(\\d{3,4})(\\d{4})", message = "올바른 휴대폰 번호를 입력해주세요.")
@@ -33,4 +37,7 @@ public record MemberFindPwdRequest(
         @NotBlank(message = "비밀번호 찾기 답변을 선택해주세요.")
         String pwdAnswer
     ){
+        public String getBirthDate() {
+                return this.birthday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }
 }

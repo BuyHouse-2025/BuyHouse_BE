@@ -1,39 +1,29 @@
 package com.ssafy.buyhouse.domain.auth.util;
 
 import com.ssafy.buyhouse.domain.member.domain.Member;
-import com.ssafy.buyhouse.domain.member.domain.PrincipalDetail;
-import com.ssafy.buyhouse.domain.member.service.MemberService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseCookie;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import javax.naming.AuthenticationException;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Map;
 
-@Component
 @RequiredArgsConstructor
 public class TokenProvider {
-    private final String secretKey = JwtConstants.key;
-    private final MemberService memberService;
+    private final static String secretKey = JwtConstants.key;
 
-
-    public String getTokenFromHeader(String header) {
+    public static String getTokenFromHeader(String header) {
         return header.split(" ")[1];
     }
 
-    public String generateToken(Member member, int validTime) {
+    public static String generateToken(Member member, int validTime) {
         SecretKey key = null;
         try {
             key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
@@ -50,18 +40,7 @@ public class TokenProvider {
                 .compact();
     }
 
-
-    public Authentication getAuthentication(String token) throws AuthenticationException {
-        String tokenFromHeader = getTokenFromHeader(token);
-        String claims = getClaims(tokenFromHeader);
-        if(claims == null) throw new AuthenticationException("토큰값이 잘못되었습니다");
-        Member member = memberService.findMemberById(String.valueOf(claims));
-
-        PrincipalDetail principalDetail = new PrincipalDetail(member);
-        return new UsernamePasswordAuthenticationToken(principalDetail, "", principalDetail.getAuthorities());
-    }
-
-    public boolean validateToken(String token) {
+    public static boolean validateToken(String token) {
         SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 
         try {
@@ -75,7 +54,7 @@ public class TokenProvider {
         }
     }
 
-    public boolean isExpired(String token) {
+    public static boolean isExpired(String token) {
         try {
             validateToken(token);
         } catch (Exception e) {
@@ -84,16 +63,16 @@ public class TokenProvider {
         return false;
     }
 
-    public long tokenRemainTime(Integer expTime) {
+    public static long tokenRemainTime(Integer expTime) {
         Date expDate = new Date((long) expTime * (1000));
         long remainMs = expDate.getTime() - System.currentTimeMillis();
         return remainMs / (1000 * 60);
     }
 
-    public String getClaims(String jwt) {
+    public static String getClaims(String jwt) {
         try{
             return Jwts.parserBuilder()
-                    .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
+                    .setSigningKey(Keys.hmacShaKeyFor(TokenProvider.secretKey.getBytes(StandardCharsets.UTF_8)))
                     .build()
                     .parseClaimsJws(jwt)
                     .getBody()
@@ -105,7 +84,7 @@ public class TokenProvider {
         }
     }
 
-    public ResponseCookie createCookie(String refreshToken) { // 수정
+    public static ResponseCookie createCookie(String refreshToken) { // 수정
         String cookieName = JwtConstants.REFRESH;
 
         ResponseCookie cookie = ResponseCookie.from(cookieName, refreshToken)

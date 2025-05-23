@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +27,7 @@ public class PrincipalDetail implements OAuth2User, UserDetails {
 
     public PrincipalDetail(Member member) {
         this.member = member;
+        this.authorities = Arrays.asList(() -> "ROLE_USER");
     }
 
     public Map<String, Object> getMemberInfo() {
@@ -38,11 +40,12 @@ public class PrincipalDetail implements OAuth2User, UserDetails {
 
     @Override
     public Map<String, Object> getAttributes() {
-        return null;
+        return attributes;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        System.out.println(authorities.isEmpty());
         return authorities;
     }
 

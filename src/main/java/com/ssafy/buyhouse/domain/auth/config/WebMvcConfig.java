@@ -12,15 +12,13 @@ import java.util.List;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
     private final MemberService memberService;
-    private final TokenProvider tokenProvider;
 
-    public WebMvcConfig(MemberService memberService, TokenProvider tokenProvider) {
+    public WebMvcConfig(MemberService memberService) {
         this.memberService = memberService;
-        this.tokenProvider = tokenProvider;
     }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new LoginUserArgumentResolver(memberService, tokenProvider));
+        resolvers.add(new LoginUserArgumentResolver(memberService));
     }
 }

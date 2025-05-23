@@ -15,11 +15,8 @@ import javax.naming.AuthenticationException;
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final MemberService memberService;
-    private final TokenProvider tokenProvider;
-
-    public LoginUserArgumentResolver(MemberService memberService, TokenProvider tokenProvider) {
+    public LoginUserArgumentResolver(MemberService memberService) {
         this.memberService = memberService;
-        this.tokenProvider = tokenProvider;
     }
 
     @Override
@@ -35,7 +32,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
         String accessToken = request.getHeader("Authorization");
 
         if(accessToken == null) throw new AuthenticationException("인증에 실패하였습니다.");
-        String claims = tokenProvider.getClaims(tokenProvider.getTokenFromHeader(accessToken));
+        String claims = TokenProvider.getClaims(TokenProvider.getTokenFromHeader(accessToken));
         if(claims == null) throw new AuthenticationException("인증에 실패하였습니다.");
         return memberService.findMemberById(String.valueOf(claims));
     }

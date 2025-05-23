@@ -2,23 +2,27 @@ package com.ssafy.buyhouse.domain.auth.filter;
 
 import com.ssafy.buyhouse.domain.auth.util.JwtConstants;
 import com.ssafy.buyhouse.domain.auth.util.TokenProvider;
+import com.ssafy.buyhouse.domain.member.domain.Member;
+import com.ssafy.buyhouse.domain.member.domain.PrincipalDetail;
+import com.ssafy.buyhouse.domain.member.service.MemberService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.PatternMatchUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.naming.AuthenticationException;
 import java.io.IOException;
 
 @Slf4j
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-    private final TokenProvider tokenProvider;
+    private final MemberService memberService;
 
     private static final String[] whitelist = {
             "/", "/login", "/join",
@@ -36,8 +40,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             "/favicon.ico"
     };
 
-    public TokenAuthenticationFilter(TokenProvider tokenProvider) {
-        this.tokenProvider = tokenProvider;
+    public TokenAuthenticationFilter(MemberService memberService) {
+        this.memberService = memberService;
     }
 
     private static void checkAuthorizationHeader(String header) {
@@ -78,7 +82,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             checkAuthorizationHeader(authHeader);   // header 가 올바른 형식인지 체크
-            Authentication authentication = tokenProvider.getAuthentication(authHeader);
+            Authentication authentication = getAuthentication(authHeader);
 
             log.info("authentication = {}", authentication);
 
@@ -86,7 +90,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);    // 다음 필터로 이동
         } catch (Exception e) {
-            System.out.println("에러~~~~~~~~~" + e.getMessage());
             response.setContentType("application/json; charset=UTF-8");
 
             if (e instanceof ExpiredJwtException) {
@@ -96,6 +99,15 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             }
 
         }
+    }
+
+    private Authentication getAuthentication(String authHeader) throws AuthenticationException {
+        String tokenFromHeader = TokenProvider.getTokenFromHeader(authHeader);
+        String claims = TokenProvider.getClaims(tokenFromHeader);
+        if(claims == null) throw new AuthenticationException("토큰값이 잘못되었습니다");
+        Member member = memberService.findMemberById(claims);
+        PrincipalDetail principalDetail = new PrincipalDetail(member);
+        return new UsernamePasswordAuthenticationToken(principalDetail, "", principalDetail.getAuthorities());
     }
 
 }

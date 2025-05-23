@@ -21,12 +21,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     @Value("${app.redirect.uri}")
     String uri;
 
-    private final TokenProvider tokenProvider;
-
-    public LoginSuccessHandler(TokenProvider tokenProvider) {
-        this.tokenProvider = tokenProvider;
-    }
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         System.out.println("LoginSuccessHandler 호출 성공");
@@ -34,12 +28,12 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         PrincipalDetail principal = (PrincipalDetail) authentication.getPrincipal();
         Member member = principal.getUser();
 
-        String accessToken = tokenProvider.generateToken(member, JwtConstants.ACCESS_EXP_TIME_MINUTES);
-        String refreshToken = tokenProvider.generateToken(member, JwtConstants.REFRESH_EXP_TIME_MINUTES);
+        String accessToken = TokenProvider.generateToken(member, JwtConstants.ACCESS_EXP_TIME_MINUTES);
+        String refreshToken = TokenProvider.generateToken(member, JwtConstants.REFRESH_EXP_TIME_MINUTES);
 
 
         response.addHeader(JwtConstants.ACCESS, JwtConstants.JWT_TYPE + accessToken);
-        response.addHeader("Set-Cookie", tokenProvider.createCookie(refreshToken).toString());
+        response.addHeader("Set-Cookie", TokenProvider.createCookie(refreshToken).toString());
 
         UserType type = member.getType();
         String redirectURL;

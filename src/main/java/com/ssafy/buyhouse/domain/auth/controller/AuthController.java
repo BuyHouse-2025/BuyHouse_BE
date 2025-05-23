@@ -1,11 +1,8 @@
 package com.ssafy.buyhouse.domain.auth.controller;
 
-import com.ssafy.buyhouse.domain.member.dto.reqeust.LoginForm;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor

@@ -4,8 +4,7 @@ import com.ssafy.buyhouse.domain.auth.filter.TokenAuthenticationFilter;
 import com.ssafy.buyhouse.domain.auth.handler.LoginFailHandler;
 import com.ssafy.buyhouse.domain.auth.handler.LoginSuccessHandler;
 import com.ssafy.buyhouse.domain.auth.service.OAuth2UserCustomService;
-import com.ssafy.buyhouse.domain.auth.service.PrincipalDetailsService;
-import com.ssafy.buyhouse.domain.auth.util.TokenProvider;
+import com.ssafy.buyhouse.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,8 +28,6 @@ import java.util.List;
 public class SecurityConfig {
 
     private final OAuth2UserCustomService oAuth2UserService;
-    private final TokenProvider tokenProvider;
-    private final PrincipalDetailsService principalDetailsService;
 
     @Bean
     public BCryptPasswordEncoder encodePwd() {
@@ -58,7 +55,7 @@ public class SecurityConfig {
 
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler(tokenProvider);
+        return new LoginSuccessHandler();
     }
 
     @Bean
@@ -67,12 +64,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public TokenAuthenticationFilter tokenAuthenticationFilter(TokenProvider tokenProvider) {
-        return new TokenAuthenticationFilter(tokenProvider);
-    }
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, MemberService memberService) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
@@ -89,7 +81,7 @@ public class SecurityConfig {
                 //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/", "/index", "/favicon.ico",
+                                "/", "/index", "/favicon.ico", "/error",
                                 "/css/**", "/js/**", "/img/**",
                                 "/login", "/user/login", "/user/signup",
                                 "/oauth2/**", "/api/login/**", "/auth/**"
@@ -107,7 +99,7 @@ public class SecurityConfig {
                         .failureHandler(loginFailHandler())
                 );
 
-        http.addFilterBefore(tokenAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new TokenAuthenticationFilter(memberService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

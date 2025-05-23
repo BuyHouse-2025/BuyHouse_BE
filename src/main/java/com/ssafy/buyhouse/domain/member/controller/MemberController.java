@@ -13,8 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +22,10 @@ public class MemberController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
 
+    @GetMapping
+    public ResponseEntity<Member> getMemberTest(@LoginUser Member member){
+        return ResponseEntity.ok().body(member);
+    }
     //회원정보 수정
     @PutMapping
     public ResponseEntity<?> updateMember(@LoginUser Member member, @RequestBody MemberUpdateRequest memberUpdateRequest, BindingResult bindingResult){
@@ -49,28 +52,30 @@ public class MemberController {
         return ResponseEntity.ok().body(null);
     }
 
- /*   //아이디 찾기
+    //아이디 찾기
     @GetMapping("/recovery/id")
     public ResponseEntity<?> findUserId(@RequestBody MemberFindIdRequest memberFindIdRequest){
-        MemberFindIdResponse memberId = memberService.findMemberId(memberFindIdRequest);
+        Member member = memberService.findMemberId(memberFindIdRequest);
         //메일 전송
-        return ResponseEntity.ok().body(memberId);
+        return ResponseEntity.ok().body(MemberFindIdResponse.from(member));
     }
 
     //비밀번호 찾기
     @GetMapping("/recovery/password")
     public ResponseEntity<?> findUserPwd(@RequestBody MemberFindPwdRequest memberFindPwdRequest){
-        MemberFindPwdResponse memberPwd = memberService.findMemberPwd(memberFindPwdRequest);
+        Member member = memberService.findMemberPwd(memberFindPwdRequest);
         //메일 전송 - 임시 비밀번호로 변경 후 임시 비밀번호 전송
-        return ResponseEntity.ok().body(memberPwd);
+        String tempPassword = String.valueOf(UUID.randomUUID()).substring(0,8);
+        memberService.setMemberPwdTemp(tempPassword, member);
+        return ResponseEntity.ok().body(new MemberFindPwdResponse(tempPassword));
     }
 
     //비밀번호 변경
     @PutMapping("/password")
-    public ResponseEntity<?> updatePwd(@RequestBody MemberUpdatePwdRequest memberUpdatePwdRequest){
-        memberService.updateMemberPwd(memberUpdatePwdRequest);
+    public ResponseEntity<?> updatePwd(@LoginUser Member member, @RequestBody MemberUpdatePwdRequest memberUpdatePwdRequest){
+        memberService.updateMemberPwd(memberUpdatePwdRequest, member);
         return ResponseEntity.ok().body(null);
-    }*/
+    }
 
     //자산 조회
 
