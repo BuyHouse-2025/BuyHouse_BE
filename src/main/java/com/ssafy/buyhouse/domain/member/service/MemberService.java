@@ -22,8 +22,9 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    @Transactional
     public void registerMember(@Valid MemberCreateRequest memberCreateRequest) {
-        memberRepository.save(memberCreateRequest.toEntity());
+        memberRepository.save(memberCreateRequest.toEntity(passwordEncoder.encode(memberCreateRequest.password())));
     }
 
     public boolean isIdDuplicated(String id) {
