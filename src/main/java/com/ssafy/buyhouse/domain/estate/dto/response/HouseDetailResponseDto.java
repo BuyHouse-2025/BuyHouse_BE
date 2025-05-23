@@ -35,6 +35,8 @@ public class HouseDetailResponseDto {
     private int preschool;
     private int priSchool;
     private int pubSchool;
+    private int predictPrice;
+
     private List<HouseDealResponseDto> deals;
 
     public static HouseDetailResponseDto from(HouseInfo hi) {
@@ -63,6 +65,7 @@ public class HouseDetailResponseDto {
                 .preschool(d.getPreschool())
                 .priSchool(d.getPriSchool())
                 .pubSchool(d.getPubSchool())
+                .predictPrice(d.getPredictPrice())
                 .deals(dealResponseDtos)
                 .build();
     }

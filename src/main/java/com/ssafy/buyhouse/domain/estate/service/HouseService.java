@@ -1,13 +1,12 @@
 package com.ssafy.buyhouse.domain.estate.service;
 
-import com.ssafy.buyhouse.domain.board.domain.Board;
-import com.ssafy.buyhouse.domain.estate.domain.HouseDeal;
 import com.ssafy.buyhouse.domain.estate.domain.HouseInfo;
 import com.ssafy.buyhouse.domain.estate.domain.OwnedHouse;
-import com.ssafy.buyhouse.domain.estate.dto.request.PurchaseRequestDto;
 import com.ssafy.buyhouse.domain.estate.dto.request.SearchRequestDto;
 import com.ssafy.buyhouse.domain.estate.dto.response.HouseDetailResponseDto;
 import com.ssafy.buyhouse.domain.estate.dto.response.HouseResponseDto;
+import com.ssafy.buyhouse.domain.estate.dto.response.OwnedHouseListResponseDto;
+import com.ssafy.buyhouse.domain.estate.dto.response.OwnedHouseResponseDto;
 import com.ssafy.buyhouse.domain.estate.repository.HouseDealRepository;
 import com.ssafy.buyhouse.domain.estate.repository.HouseRepository;
 import com.ssafy.buyhouse.domain.estate.repository.OwnedHouseRepository;
@@ -16,7 +15,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,9 +24,7 @@ import java.util.stream.Collectors;
 @Transactional
 public class HouseService {
     private final HouseRepository houseRepository;
-    private final HouseDealRepository houseDealRepository;
     private final OwnedHouseRepository ownedHouseRepository;
-    // private final MemberRepsitory memberRepsitory; 맴버 생성한후 추가
 
     // 부동산 검색 - 이름,가격,평형
     public List<HouseResponseDto> searchName(SearchRequestDto searchRequestDto) {
@@ -53,20 +49,37 @@ public class HouseService {
     }
 
     // 부동산 구매하기
-    public String purchaseHouse(PurchaseRequestDto purchaseRequestDto) {
+    public String purchaseHouse(String aptSeq, String member) { // 멤버 추가후 수정
 
-       //  Member member = memberRepsitory.findById(purchaseRequestDto.getUserId()
-        //  .orElseThrow(() -> new EntityNotFoundException("회원이 없습니다. userId=" + req.getUserId()));) 맴버 생성한후 추가
-
-        HouseDeal deal = houseDealRepository.findById(purchaseRequestDto.getDealId())
-                .orElseThrow(() -> new EntityNotFoundException("거래 정보가 없습니다. dealId=" + purchaseRequestDto.getDealId()));
+        HouseInfo houseInfo = houseRepository.findById(aptSeq)
+                .orElseThrow(() -> new EntityNotFoundException("단지 정보가 없습니다. aptSeq=" + aptSeq));
 
         OwnedHouse ownedHouse = OwnedHouse.builder()
                 //.member(member)
-                .deal(deal)
+                .houseInfo(houseInfo)
                 .build();
         ownedHouseRepository.save(ownedHouse);
 
         return "부동산 매물 구매를 완료하였습니다.";
     }
+
+    // 보유 부동산 조회하기
+    public OwnedHouseListResponseDto searchOwnedHouse(String userId) {
+        return OwnedHouseListResponseDto.from(ownedHouseRepository.findAllByMember_Id(userId)
+                .stream().map(OwnedHouseResponseDto::from)
+                .collect(Collectors.toList()));
+    }
+
+    // 보유 부동산 판매하기
+    public String SaleHouse(Long id) {
+        OwnedHouse ownedHouse = ownedHouseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("해당 보유 부동산이 없습니다. id=" + id));
+
+        // 맴버 소지금 변동
+        // Member member = ownedHouse.getMember();
+        // member.CashConversion(ownedHouse.getOwnedPrice());
+
+        return "부동산 판매가 완료되었습니다.";
+    }
+
 }

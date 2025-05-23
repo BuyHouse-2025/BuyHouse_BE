@@ -2,17 +2,14 @@ package com.ssafy.buyhouse.domain.estate.domain;
 
 import com.ssafy.buyhouse.domain.member.domain.Member;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 public class OwnedHouse {
@@ -26,8 +23,11 @@ public class OwnedHouse {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "deal_id", nullable = false)
-    private HouseDeal deal;
+    @JoinColumn(name = "apt_seq", referencedColumnName = "apt_seq", nullable = false)
+    private HouseInfo houseInfo;
+
+    @Column(nullable = false)
+    private int ownedPrice;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

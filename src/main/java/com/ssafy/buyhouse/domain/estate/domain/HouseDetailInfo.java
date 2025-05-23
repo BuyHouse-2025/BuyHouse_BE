@@ -62,6 +62,6 @@ public class HouseDetailInfo {
     @Column(name = "PUB_SCHOOL")
     private int pubSchool;
 
-    @Column
+    @Column(name = "predict_price")
     private int predictPrice;
 }
