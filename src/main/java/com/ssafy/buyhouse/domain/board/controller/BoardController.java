@@ -36,13 +36,13 @@ public class BoardController {
         return ResponseEntity.ok().body(results);
     }
 
-    // 단일 게시물 상세보기
+    // 단일 게시물 상세보기 -> 댓글 추가 완료 / 페이징 미완
     @GetMapping("/{id}" )
     public ResponseEntity<PostDetailResponseDto> getPost(@PathVariable long id) {
         PostDetailResponseDto postDetailResponseDto = boardService.findById(id);
-        System.out.println("GET 요청 받음");
         return ResponseEntity.ok().body(postDetailResponseDto);
     }
+
 
     // 게시물 작성
     @PostMapping("/save")
@@ -64,7 +64,6 @@ public class BoardController {
     // 게시물 삭제
     @DeleteMapping("{id}")
     public ResponseEntity<?> deletePost(@PathVariable long id) {
-
         String result = boardService.delete(id);
         return ResponseEntity.ok().body(result);
     }

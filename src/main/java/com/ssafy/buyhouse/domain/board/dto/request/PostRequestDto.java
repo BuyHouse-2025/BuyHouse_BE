@@ -17,10 +17,10 @@ public class PostRequestDto {
     private String title;
     private String content;
 
-    public Board toEntity() {
+    public static Board toEntity(PostRequestDto postRequestDto) {
         return Board.builder()
-                .title(this.title)
-                .content(this.content)
+                .title(postRequestDto.getTitle())
+                .content(postRequestDto.getContent())
                 .build();
     }
 }

@@ -17,9 +17,9 @@ public class MemberController {
 
 
     // 회원가입 정보저장
-    @PostMapping("/save")
-    public ResponseEntity<?> postMember(@RequestBody MemberCreateRequest MemberCreateRequest) {
-        String result = memberService.registerMember(MemberCreateRequest);
-        return ResponseEntity.ok().body(result);
-    }
+//    @PostMapping("/save")
+//    public ResponseEntity<?> postMember(@RequestBody MemberCreateRequest MemberCreateRequest) {
+//        String result = memberService.registerMember(MemberCreateRequest);
+//        return ResponseEntity.ok().body(result);
+//    }
 }
