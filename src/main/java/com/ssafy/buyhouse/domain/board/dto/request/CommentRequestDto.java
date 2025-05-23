@@ -23,12 +23,13 @@ public class CommentRequestDto {
     private Board board;
 
     public static Comment toEntity(CommentRequestDto  commentRequestDto) {
-        return Comment.builder()
+        return new Comment();
+        /*return Comment.builder()
                 .id(commentRequestDto.getId())
                 .comment(commentRequestDto.getComment())
                 .createdDate(commentRequestDto.getCreatedDate())
                 // .member(commentRequestDto.getMember())
                 .board(commentRequestDto.getBoard())
-                .build();
+                .build();*/
     }
 }

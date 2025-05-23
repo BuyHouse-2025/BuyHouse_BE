@@ -1,11 +1,13 @@
 package com.ssafy.buyhouse.domain.member.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigInteger;
-import java.util.Date;
+import java.text.spi.DateFormatProvider;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,25 +19,30 @@ import java.util.Date;
 public class Member {
 
     @Id
-    @Column
+    @Column(name = "id")
     private String id;
-    @Column
+    @Column(name = "password")
     private String password;
-    @Column
+    @Column(name = "email")
     private String email;
-    @Column
+    @Column(name = "name")
     private String name;
     @Temporal(TemporalType.DATE)
     @Column(name = "birth_date")
-    private Date birthDate;
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthDate;
     @Column(name = "phone_number")
     private String phoneNumber;
     @Column(name = "pwd_question")
-    private int pwdQuestion;
+    private Integer pwdQuestion;
     @Column(name = "pwd_answer")
     private String pwdAnswer;
-    @Column
-    private BigInteger cash;
+    @Column(name = "cash")
+    private Long cash;
+    @Enumerated(EnumType.STRING)
+    private UserType type;
 
-
+    public String getBirthDate() {
+        return this.birthDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
 }
