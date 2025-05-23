@@ -34,7 +34,7 @@ public class BoardService {
                 PostResponseDto.builder()
                         .title(board.getTitle())
                         .name(board.getMember()) // 맴버넣으면 board.getMember().getName()
-                        .creatTime(board.creatTime)
+                        .creatTime(board.getCreatedAt())
                         .build()
         );
         return postResponseDtos;
@@ -60,7 +60,7 @@ public class BoardService {
     // 게시물 작성
     @Transactional
     public String save(PostRequestDto postRequestDto) { // Member memeber
-        Board board = postRequestDto.toEntity();
+        Board board = postRequestDto.toEntity(postRequestDto);
         // board.setMember(member);
         boardRepository.save(board);
 

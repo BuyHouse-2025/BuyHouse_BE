@@ -8,7 +8,5 @@ import java.util.List;
 
 @Repository
 public interface OwnedHouseRepository extends JpaRepository<OwnedHouse,Long> {
-    List<OwnedHouse> findAllById(Long id);
-
     List<OwnedHouse> findAllByMember_Id(String userId);
 }

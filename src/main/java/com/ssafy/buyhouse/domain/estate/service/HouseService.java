@@ -74,10 +74,11 @@ public class HouseService {
     public String SaleHouse(Long id) {
         OwnedHouse ownedHouse = ownedHouseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("해당 보유 부동산이 없습니다. id=" + id));
-
         // 맴버 소지금 변동
         // Member member = ownedHouse.getMember();
         // member.CashConversion(ownedHouse.getOwnedPrice());
+
+        ownedHouseRepository.delete(ownedHouse);
 
         return "부동산 판매가 완료되었습니다.";
     }

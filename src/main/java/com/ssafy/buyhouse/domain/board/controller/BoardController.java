@@ -36,12 +36,13 @@ public class BoardController {
         return ResponseEntity.ok().body(results);
     }
 
-    // 단일 게시물 상세보기
+    // 단일 게시물 상세보기 -> 댓글 추가 완료 / 페이징 미완
     @GetMapping("/{id}" )
     public ResponseEntity<PostDetailResponseDto> getPost(@PathVariable long id) {
         PostDetailResponseDto postDetailResponseDto = boardService.findById(id);
         return ResponseEntity.ok().body(postDetailResponseDto);
     }
+
 
     // 게시물 작성
     @PostMapping("/save")
