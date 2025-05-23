@@ -25,8 +25,10 @@ public record MemberCreateRequest (
     @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$", message = "닉네임은 특수문자를 제외한 2~10자리여야 합니다.")
     String name,
 
+    @NotBlank(message = "생년월일을 입력해주세요.")
     Date birthday,
 
+    @NotBlank(message = "전화번호를 입력해주세요.")
     @Pattern(regexp = "(01[016789])(\\d{3,4})(\\d{4})", message = "올바른 휴대폰 번호를 입력해주세요.")
     String phoneNumber,
 

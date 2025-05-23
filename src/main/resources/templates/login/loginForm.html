@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
+          href="/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .container {
             max-width: 560px;
@@ -22,23 +22,16 @@
         <h2>로그인</h2>
     </div>
 
-    <form action="/api/auth/login" th:action th:object="${loginForm}" method="post">
+    <form action="/login" method="post">
 
-        <div th:if="${#fields.hasGlobalErrors()}">
-            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
-        </div>
 
         <div>
             <label for="loginId">로그인 ID</label>
-            <input type="text" id="loginId" th:field="*{loginId}" class="form-control"
-                   th:errorclass="field-error">
-            <div class="field-error" th:errors="*{loginId}" />
+            <input type="text" name="loginId" id="loginId">
         </div>
         <div>
             <label for="password">비밀번호</label>
-            <input type="password" id="password" th:field="*{password}" class="form-control"
-                   th:errorclass="field-error">
-            <div class="field-error" th:errors="*{password}" />
+            <input type="password" name="password" id="password">
         </div>
 
         <hr class="my-4">
@@ -55,7 +48,12 @@
         </div>
 
     </form>
-
+    <a href="/api/oauth2/authorization/kakao">
+        <img src="/img/네이버버튼.png">
+    </a>
+    <a href="/api/oauth2/authorization/naver">
+        <img src="/img/카카오버튼.png">
+    </a>
 </div> <!-- /container -->
 </body>
 </html>

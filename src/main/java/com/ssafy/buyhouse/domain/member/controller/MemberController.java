@@ -2,8 +2,10 @@ package com.ssafy.buyhouse.domain.member.controller;
 
 import com.ssafy.buyhouse.domain.auth.annotation.LoginUser;
 import com.ssafy.buyhouse.domain.member.domain.Member;
-import com.ssafy.buyhouse.domain.member.dto.reqeust.MemberCreateRequest;
-import com.ssafy.buyhouse.domain.member.dto.reqeust.MemberUpdateRequest;
+import com.ssafy.buyhouse.domain.member.dto.reqeust.*;
+import com.ssafy.buyhouse.domain.member.dto.response.MemberFindIdResponse;
+import com.ssafy.buyhouse.domain.member.dto.response.MemberFindPwdResponse;
+import com.ssafy.buyhouse.domain.member.repository.MemberRepository;
 import com.ssafy.buyhouse.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,11 +13,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
 public class MemberController {
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
 
     //회원정보 수정
     @PutMapping
@@ -37,10 +43,44 @@ public class MemberController {
     }
 
     //회원 탈퇴
+    @DeleteMapping
+    public ResponseEntity<?> deleteMember(@LoginUser Member member){
+        memberRepository.delete(member);
+        return ResponseEntity.ok().body(null);
+    }
 
-    //아이디 찾기
+ /*   //아이디 찾기
+    @GetMapping("/recovery/id")
+    public ResponseEntity<?> findUserId(@RequestBody MemberFindIdRequest memberFindIdRequest){
+        MemberFindIdResponse memberId = memberService.findMemberId(memberFindIdRequest);
+        //메일 전송
+        return ResponseEntity.ok().body(memberId);
+    }
 
     //비밀번호 찾기
+    @GetMapping("/recovery/password")
+    public ResponseEntity<?> findUserPwd(@RequestBody MemberFindPwdRequest memberFindPwdRequest){
+        MemberFindPwdResponse memberPwd = memberService.findMemberPwd(memberFindPwdRequest);
+        //메일 전송 - 임시 비밀번호로 변경 후 임시 비밀번호 전송
+        return ResponseEntity.ok().body(memberPwd);
+    }
+
+    //비밀번호 변경
+    @PutMapping("/password")
+    public ResponseEntity<?> updatePwd(@RequestBody MemberUpdatePwdRequest memberUpdatePwdRequest){
+        memberService.updateMemberPwd(memberUpdatePwdRequest);
+        return ResponseEntity.ok().body(null);
+    }*/
+
+    //자산 조회
+
+    //부동산 판매하기
+
+    //보유 부동산 조회
+
+    //회원 랭킹 조회
+
+    //전체 랭킹 조회
 
     // 회원가입
     @PostMapping

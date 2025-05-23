@@ -1,8 +1,9 @@
 package com.ssafy.buyhouse.domain.member.service;
 
 import com.ssafy.buyhouse.domain.member.domain.Member;
-import com.ssafy.buyhouse.domain.member.dto.reqeust.MemberCreateRequest;
-import com.ssafy.buyhouse.domain.member.dto.reqeust.MemberUpdateRequest;
+import com.ssafy.buyhouse.domain.member.dto.reqeust.*;
+import com.ssafy.buyhouse.domain.member.dto.response.MemberFindIdResponse;
+import com.ssafy.buyhouse.domain.member.dto.response.MemberFindPwdResponse;
 import com.ssafy.buyhouse.domain.member.repository.MemberRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -57,4 +58,14 @@ public class MemberService {
     public Member findMemberById(String id) {
         return memberRepository.findById(id).orElseThrow();
     }
+
+
+/*    public MemberFindIdResponse findMemberId(MemberFindIdRequest memberFindIdRequest) {
+    }
+
+    public MemberFindPwdResponse findMemberPwd(MemberFindPwdRequest memberFindPwdRequest) {
+    }
+
+    public void updateMemberPwd(MemberUpdatePwdRequest memberUpdatePwdRequest) {
+    }*/
 }

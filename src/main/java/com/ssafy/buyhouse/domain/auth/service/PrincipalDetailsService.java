@@ -22,10 +22,11 @@ public class PrincipalDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info(username);
-        Optional<Member> userEntity = memberRepository.findByName(username);
+        Optional<Member> userEntity = memberRepository.findById(username);
         if (userEntity.isEmpty()) {
             return null;
         } else {
+            System.out.println(userEntity.get().getPassword());
             return new PrincipalDetail(userEntity.get());
         }
     }

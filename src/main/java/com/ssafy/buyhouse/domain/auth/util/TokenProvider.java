@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.naming.AuthenticationException;
@@ -21,21 +22,21 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Map;
 
-@Configuration
+@Component
 @RequiredArgsConstructor
 public class TokenProvider {
-    static String secretKey = JwtConstants.key;
+    private final String secretKey = JwtConstants.key;
     private final MemberService memberService;
 
 
-    public static String getTokenFromHeader(String header) {
+    public String getTokenFromHeader(String header) {
         return header.split(" ")[1];
     }
 
-    public static String generateToken(Member member, int validTime) {
+    public String generateToken(Member member, int validTime) {
         SecretKey key = null;
         try {
-            key = Keys.hmacShaKeyFor(TokenProvider.secretKey.getBytes(StandardCharsets.UTF_8));
+            key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
         } catch(Exception e){
             throw new RuntimeException(e.getMessage());
         }
@@ -50,8 +51,7 @@ public class TokenProvider {
     }
 
 
-    public Authentication
-    getAuthentication(String token) throws AuthenticationException {
+    public Authentication getAuthentication(String token) throws AuthenticationException {
         String tokenFromHeader = getTokenFromHeader(token);
         String claims = getClaims(tokenFromHeader);
         if(claims == null) throw new AuthenticationException("토큰값이 잘못되었습니다");
@@ -61,8 +61,8 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(principalDetail, "", principalDetail.getAuthorities());
     }
 
-    public static boolean validateToken(String token) {
-        SecretKey key = Keys.hmacShaKeyFor(TokenProvider.secretKey.getBytes(StandardCharsets.UTF_8));
+    public boolean validateToken(String token) {
+        SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
 
         try {
             Jwts.parserBuilder()
@@ -75,7 +75,7 @@ public class TokenProvider {
         }
     }
 
-    public static boolean isExpired(String token) {
+    public boolean isExpired(String token) {
         try {
             validateToken(token);
         } catch (Exception e) {
@@ -84,13 +84,13 @@ public class TokenProvider {
         return false;
     }
 
-    public static long tokenRemainTime(Integer expTime) {
+    public long tokenRemainTime(Integer expTime) {
         Date expDate = new Date((long) expTime * (1000));
         long remainMs = expDate.getTime() - System.currentTimeMillis();
         return remainMs / (1000 * 60);
     }
 
-    public static String getClaims(String jwt) {
+    public String getClaims(String jwt) {
         try{
             return Jwts.parserBuilder()
                     .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
@@ -105,15 +105,15 @@ public class TokenProvider {
         }
     }
 
-    public static ResponseCookie createCookie(String refreshToken) { // 수정
+    public ResponseCookie createCookie(String refreshToken) { // 수정
         String cookieName = JwtConstants.REFRESH;
 
         ResponseCookie cookie = ResponseCookie.from(cookieName, refreshToken)
                 .httpOnly(true)
-                .secure(true)
+                .secure(false)
                 .path("/")
                 .maxAge(Duration.ofDays(1))
-                .sameSite("Secure")
+                .sameSite("Lax")
                 .build();
 
         return cookie;
