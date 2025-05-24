@@ -1,10 +1,12 @@
 package com.ssafy.buyhouse.domain.estate.controller;
 
+import com.ssafy.buyhouse.domain.auth.annotation.LoginUser;
 import com.ssafy.buyhouse.domain.estate.dto.request.SearchRequestDto;
 import com.ssafy.buyhouse.domain.estate.dto.response.HouseDetailResponseDto;
 import com.ssafy.buyhouse.domain.estate.dto.response.HouseResponseDto;
 import com.ssafy.buyhouse.domain.estate.dto.response.OwnedHouseListResponseDto;
 import com.ssafy.buyhouse.domain.estate.service.HouseService;
+import com.ssafy.buyhouse.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,22 +37,27 @@ public class HouseController {
 
     // 부동산 구매하기
     @PostMapping("/{aptSeq}/purchase")
-    public ResponseEntity<?> Postpurchase(@PathVariable String aptSeq, String member) { // 유저 정보 추가하고 수정
+    public ResponseEntity<?> Postpurchase(@PathVariable String aptSeq, @LoginUser Member member) { // 유저 정보 추가하고 수정
         String result = houseService.purchaseHouse(aptSeq, member);
         return ResponseEntity.ok().body(result);
     }
 
     // 보유 부동산 조회하기
-    @GetMapping("/owned/{userId}")
-    public ResponseEntity<OwnedHouseListResponseDto> GetOwnedHouseInfo(@PathVariable String userId) {
-        OwnedHouseListResponseDto ownedHouseListResponseDto = houseService.searchOwnedHouse(userId);
+    @GetMapping("/owned")
+    public ResponseEntity<OwnedHouseListResponseDto> GetOwnedHouseInfo(@LoginUser Member member) {
+        OwnedHouseListResponseDto ownedHouseListResponseDto = houseService.searchOwnedHouse(member.getId());
         return ResponseEntity.ok().body(ownedHouseListResponseDto);
     }
 
     // 보유 부동산 판매하기
     @DeleteMapping("/owned/{id}")
-    public ResponseEntity<?> DeleteOwnedHouse(@PathVariable long id) {
-        String result = houseService.SaleHouse(id);
-        return ResponseEntity.ok().body(result);
+    public ResponseEntity<?> DeleteOwnedHouse(@PathVariable long id, @LoginUser Member member) {
+        try {
+            String result = houseService.SaleHouse(id, member);
+            return ResponseEntity.ok().body(result);
+        } catch (IllegalAccessException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 }

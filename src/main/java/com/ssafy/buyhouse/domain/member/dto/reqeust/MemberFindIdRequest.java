@@ -2,6 +2,7 @@ package com.ssafy.buyhouse.domain.member.dto.reqeust;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ public record MemberFindIdRequest(
     @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$", message = "닉네임은 특수문자를 제외한 2~10자리여야 합니다.")
     String name,
 
-    @NotBlank(message = "생년월일을 입력해주세요.")
+    @NotNull(message = "생년월일을 입력해주세요.")
     @JsonFormat(pattern = "yyyy-MM-dd")
     LocalDate birthday,
 

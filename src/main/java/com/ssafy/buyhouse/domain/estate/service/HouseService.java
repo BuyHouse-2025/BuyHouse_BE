@@ -49,13 +49,13 @@ public class HouseService {
     }
 
     // 부동산 구매하기
-    public String purchaseHouse(String aptSeq, String member) { // 멤버 추가후 수정
+    public String purchaseHouse(String aptSeq, Member member) { // 멤버 추가후 수정
 
         HouseInfo houseInfo = houseRepository.findById(aptSeq)
                 .orElseThrow(() -> new EntityNotFoundException("단지 정보가 없습니다. aptSeq=" + aptSeq));
 
         OwnedHouse ownedHouse = OwnedHouse.builder()
-                //.member(member)
+                .member(member)
                 .houseInfo(houseInfo)
                 .build();
         ownedHouseRepository.save(ownedHouse);
@@ -71,12 +71,16 @@ public class HouseService {
     }
 
     // 보유 부동산 판매하기
-    public String SaleHouse(Long id) {
+    public String SaleHouse(Long id, Member member) throws IllegalAccessException {
         OwnedHouse ownedHouse = ownedHouseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("해당 보유 부동산이 없습니다. id=" + id));
+
+        if(!ownedHouse.getMember().getId().equals(member.getId()))
+            throw new IllegalAccessException("해당 사용자가 보유한 부동산이 아닙니다.");
+
         // 맴버 소지금 변동
         // Member member = ownedHouse.getMember();
-        // member.CashConversion(ownedHouse.getOwnedPrice());
+        member.CashConversion(ownedHouse.getOwnedPrice());
 
         ownedHouseRepository.delete(ownedHouse);
 

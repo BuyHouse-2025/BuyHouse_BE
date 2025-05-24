@@ -2,12 +2,15 @@ package com.ssafy.buyhouse.domain.member.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ssafy.buyhouse.domain.estate.domain.OwnedHouse;
+import com.ssafy.buyhouse.domain.wish.domain.WishHouse;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.text.spi.DateFormatProvider;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,16 +36,27 @@ public class Member {
     private LocalDate birthDate;
     @Column(name = "phone_number")
     private String phoneNumber;
-    @Column(name = "pwd_question")
-    private Integer pwdQuestion;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pwd_question", referencedColumnName = "id")
+    private PwdQuestion pwdQuestion;
     @Column(name = "pwd_answer")
     private String pwdAnswer;
     @Column(name = "cash")
     private Long cash;
     @Enumerated(EnumType.STRING)
     private UserType type;
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "member", orphanRemoval = true)
+    private List<OwnedHouse> ownedHouses = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "member", orphanRemoval = true)
+    private List<WishHouse> wishHouses = new ArrayList<>();
 
     public String getBirthDate() {
         return this.birthDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
+    public void CashConversion(int ownedPrice) {
+        cash += ownedPrice;
     }
 }

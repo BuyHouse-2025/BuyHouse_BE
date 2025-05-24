@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>비밀번호 찾기 결과</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f6f8; font-family: Arial, sans-serif;">
+<div style="max-width: 400px; margin: 40px auto; background-color: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); text-align: center;">
+
+  <!-- 로고 (S3 등 절대경로 이미지 URL 사용) -->
+  <img src="https://your-s3-bucket.s3.ap-northeast-2.amazonaws.com/logo.png" alt="로고" style="width: 100px; margin-bottom: 10px;" />
+  
+  <!-- 사용자 이름 -->
+  <h2 style="color: #333; font-size: 20px;" th:text="${name} + '님, 임시 비밀번호 입니다.'">홍길동님, 임시 비밀번호입니다.</h2>
+
+  <!-- 찾은 아이디 -->
+  <div style="background-color: #eef3fa; padding: 15px; border-radius: 8px; font-size: 18px; color: #0056b3; margin-bottom: 24px;">
+    임시 비밀번호는 <strong th:text="${password}">ssafy123</strong> 입니다.
+  </div>
+
+  <!-- 로그인 링크 -->
+  <a href="https://buyhouse.com/login"
+     style="display: inline-block; background-color: #007bff; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-size: 16px;">
+    로그인 하러가기
+  </a>
+
+
+</div>
+</body>
+</html>
