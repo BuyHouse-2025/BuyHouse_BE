@@ -31,9 +31,10 @@ public class BoardController {
 
     // 검색 게시물 보기
     @GetMapping("/search")
-    public ResponseEntity<List<PostResponseDto>> getSearchPost(@RequestParam("keyword") String keyword) {
-        List<PostResponseDto> results = boardService.searchPost(keyword);
-        return ResponseEntity.ok().body(results);
+    public ResponseEntity<Page<PostResponseDto>> getSearchPost(
+            @RequestParam("keyword") String keyword,
+            Pageable pageable) {
+        return ResponseEntity.ok().body(boardService.searchPost(keyword, pageable));
     }
 
     // 단일 게시물 상세보기 -> 댓글 추가 완료 / 페이징 미완

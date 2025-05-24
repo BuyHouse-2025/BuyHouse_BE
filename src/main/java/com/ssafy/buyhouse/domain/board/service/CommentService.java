@@ -18,7 +18,7 @@ public class CommentService {
     // 댓글작성
     public String addComment(Long id, CommentRequestDto commentRequestDto) {
         Comment comment = CommentRequestDto.toEntity(commentRequestDto);
-        comment = commentRepository.save(comment);
+        commentRepository.save(comment);
         return "댓글 작성이 완료 되었습니다.";
     }
 

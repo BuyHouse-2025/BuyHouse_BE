@@ -15,14 +15,16 @@ import java.time.LocalDateTime;
 public class CommentResponseDto {
 
     private String comment;
-    private LocalDateTime createdDate;
     private String name;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedAt;
 
     public static CommentResponseDto from(Comment comment) {
         return CommentResponseDto.builder()
                 .comment(comment.getComment())
-                .createdDate(comment.getCreatedAt())
                 //.name(comment.getMember.getName()) // 멤버 추가후 수정
+                .createdDate(comment.getCreatedAt())
+                .modifiedAt(comment.getModifiedAt())
                 .build();
     }
 }

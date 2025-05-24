@@ -1,18 +1,16 @@
 package com.ssafy.buyhouse.domain.estate.domain;
 
+import com.ssafy.buyhouse.domain.common.BaseTime;
 import com.ssafy.buyhouse.domain.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class OwnedHouse {
+public class OwnedHouse extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +27,4 @@ public class OwnedHouse {
     @Column(nullable = false)
     private int ownedPrice;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDateTime createdAt;
 }

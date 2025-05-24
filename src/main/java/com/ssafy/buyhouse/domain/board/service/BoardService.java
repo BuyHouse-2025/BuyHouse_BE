@@ -30,23 +30,23 @@ public class BoardService {
         Page<Board> boards = boardRepository.findAll(pageable);
 
         // board를 response객체로 변환
-        Page<PostResponseDto> postResponseDtos = boards.map(board ->
+        return boards.map(board ->
                 PostResponseDto.builder()
                         .title(board.getTitle())
                         .name(board.getMember()) // 맴버넣으면 board.getMember().getName()
-                        .creatTime(board.getCreatedAt())
-                        .build()
-        );
-        return postResponseDtos;
+                        .build());
     }
 
     // 검색 게시물 보기
-    public List<PostResponseDto> searchPost(String keyword) {
-        List<Board> boards = boardRepository.findByTitleContaining(keyword);
+    public Page<PostResponseDto> searchPost(String keyword, Pageable pageable) {
 
-        // board를 response객체로 변환
-        return boards.stream().map(PostResponseDto::from)
-                .collect(Collectors.toList());
+        Page<Board> Searchboards = boardRepository.findByTitleContaining(keyword, pageable);
+
+        return Searchboards.map(board ->
+                PostResponseDto.builder()
+                        .title(board.getTitle())
+                        .name(board.getMember()) // 맴버넣으면 board.getMember().getName()
+                        .build());
     }
 
     // 단일 게시물 상세 보기

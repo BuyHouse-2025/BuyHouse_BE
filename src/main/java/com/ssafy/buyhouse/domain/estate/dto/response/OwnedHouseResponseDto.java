@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 public class OwnedHouseResponseDto {
 
     private String aptNm;
-    private int ownedPrice;
-    private int currentPrice;
-    private LocalDateTime purchaseDate;
+    private int ownedPrice; // 취득가액
+    private int currentPrice; // 평가액
+    private LocalDateTime purchaseDate; //구매시간
 
     // 증감액
     @JsonProperty("priceDifference")
