@@ -1,6 +1,7 @@
 package com.ssafy.buyhouse.domain.board.domain;
 
 import com.ssafy.buyhouse.domain.common.BaseTime;
+import com.ssafy.buyhouse.domain.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,5 +24,7 @@ public class Comment extends BaseTime {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    // private Member member; 멤버 추가하면 수정
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private Member member;
 }

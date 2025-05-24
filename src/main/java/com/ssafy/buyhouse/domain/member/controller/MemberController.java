@@ -1,6 +1,7 @@
 package com.ssafy.buyhouse.domain.member.controller;
 
 import com.ssafy.buyhouse.domain.auth.annotation.LoginUser;
+import com.ssafy.buyhouse.domain.estate.dto.response.OwnedHouseListResponseDto;
 import com.ssafy.buyhouse.domain.estate.service.HouseService;
 import com.ssafy.buyhouse.domain.mail.service.MailService;
 import com.ssafy.buyhouse.domain.member.domain.Member;
@@ -9,6 +10,7 @@ import com.ssafy.buyhouse.domain.member.dto.reqeust.*;
 import com.ssafy.buyhouse.domain.member.dto.response.ErrorResponse;
 import com.ssafy.buyhouse.domain.member.dto.response.MemberFindIdResponse;
 import com.ssafy.buyhouse.domain.member.dto.response.MemberFindPwdResponse;
+import com.ssafy.buyhouse.domain.member.dto.response.MemberResponse;
 import com.ssafy.buyhouse.domain.member.service.MemberService;
 import com.ssafy.buyhouse.domain.member.service.PwdQuestionService;
 import jakarta.validation.Valid;
@@ -36,11 +38,11 @@ public class MemberController {
     }
 
     //회원정보 조회 - 자산
-/*    @GetMapping
+    @GetMapping
     public ResponseEntity<MemberResponse> getMember(@LoginUser Member member){
         OwnedHouseListResponseDto ownedHouse = houseService.searchOwnedHouse(member.getId());
-        return ResponseEntity.ok().body(MemberResponse.from(member));
-    }*/
+        return ResponseEntity.ok().body(MemberResponse.from(member, ownedHouse.getTotalCurrentPrice()));
+    }
 
     //회원정보 수정
     @PutMapping
@@ -100,10 +102,6 @@ public class MemberController {
         memberService.updateMemberPwd(memberUpdatePwdRequest, member);
         return ResponseEntity.ok().body(null);
     }
-
-    //회원 랭킹 조회
-
-    //전체 랭킹 조회
 
     // 회원가입
     @PostMapping
