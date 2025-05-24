@@ -73,7 +73,7 @@ public class MemberController {
     }
 
     //아이디 찾기
-    @GetMapping("/recovery/id")
+    @PostMapping("/recovery/id")
     public ResponseEntity<?> findUserId(@RequestBody MemberFindIdRequest memberFindIdRequest){
         Member member = memberService.findMemberId(memberFindIdRequest);
         //메일 전송
@@ -83,7 +83,7 @@ public class MemberController {
     }
 
     //비밀번호 찾기
-    @GetMapping("/recovery/password")
+    @PostMapping("/recovery/password")
     public ResponseEntity<?> findUserPwd(@RequestBody MemberFindPwdRequest memberFindPwdRequest){
         Member member = memberService.findMemberPwd(memberFindPwdRequest);
         //메일 전송 - 임시 비밀번호로 변경 후 임시 비밀번호 전송

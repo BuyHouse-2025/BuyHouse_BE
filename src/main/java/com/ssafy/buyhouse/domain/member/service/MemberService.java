@@ -121,18 +121,21 @@ public class MemberService {
     }
 
     @Transactional
-    public void updateMemberPwd(MemberUpdatePwdRequest memberUpdatePwdRequest, Member member) {
-        String oldPwd = memberUpdatePwdRequest.passwordOrigin();
+    public void updateMemberPwd(MemberUpdatePwdRequest req, Member member) {
+        String oldPwd = req.passwordOrigin();
+        String dbPwd = member.getPassword();
 
-        if(!passwordEncoder.matches(oldPwd, member.getPassword())){
+        if (!passwordEncoder.matches(oldPwd, dbPwd)) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다");
         }
-        if(!memberUpdatePwdRequest.passwordNew().equals(memberUpdatePwdRequest.passwordNewCheck())){
+
+        if (!req.passwordNew().equals(req.passwordNewCheck())) {
             throw new IllegalArgumentException("새 비밀번호가 다릅니다");
         }
 
-        member.setPassword(passwordEncoder.encode(memberUpdatePwdRequest.passwordNew()));
+        member.setPassword(passwordEncoder.encode(req.passwordNew()));
     }
+
 
     @Transactional
     public void setMemberPwdTemp(String tempPassword, Member member) {
