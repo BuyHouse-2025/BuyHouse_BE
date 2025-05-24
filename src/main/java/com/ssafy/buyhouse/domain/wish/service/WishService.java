@@ -23,12 +23,12 @@ public class WishService {
     private final HouseRepository houseRepository;
 
     // 부동산 관심 설정 하기
-    public String registWishHouse(String aptSeq, String member) {
+    public String registWishHouse(String aptSeq, Member member) {
         HouseInfo houseInfo = houseRepository.findById(aptSeq)
                 .orElseThrow(() -> new EntityNotFoundException("단지 정보가 없습니다. aptSeq=" + aptSeq));
 
         WishHouse wishHouse = WishHouse.builder()
-                //.member(member)
+                .member(member)
                 .houseInfo(houseInfo)
                 .build();
         wishRepository.save(wishHouse);
@@ -49,9 +49,12 @@ public class WishService {
     }
 
     // 관심 부동산 해제 하기
-    public String delete(Long id) {
+    public String delete(Long id, String memberId) throws Exception {
         WishHouse wishHose = wishRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("관심 부동산 목록이 없습니다. id=" + id));
+
+        if(!wishHose.getMember().getId().equals(memberId))
+            throw new IllegalAccessException("해당 사용자의 관심 부동산이 아닙니다.");
 
         wishRepository.delete(wishHose);
         return "관심 부동산 해제가 완료되었습니다.";
