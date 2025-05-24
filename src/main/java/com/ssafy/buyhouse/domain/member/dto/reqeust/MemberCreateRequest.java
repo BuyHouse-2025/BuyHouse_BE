@@ -1,7 +1,7 @@
 package com.ssafy.buyhouse.domain.member.dto.reqeust;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.ssafy.buyhouse.domain.member.domain.Member;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -19,6 +19,9 @@ public record MemberCreateRequest (
     @NotBlank(message = "비밀번호를 입력해주세요.")
     @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
     String password,
+    @NotBlank(message = "비밀번호를 입력해주세요.")
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", message = "비밀번호를 한번 더 입력하세요.")
+    String passwordConfirm,
 
     @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,6}$", message = "이메일 형식이 올바르지 않습니다.")
     @NotBlank(message = "이메일은 필수 입력 값입니다.")
@@ -42,19 +45,6 @@ public record MemberCreateRequest (
     @NotBlank(message = "비밀번호 찾기 답변을 선택해주세요.")
     String pwdAnswer
     ){
-
-    public Member toEntity(String encodedPwd) {
-        return Member.builder()
-                .id(this.id)
-                .password(encodedPwd)
-                .email(this.email)
-                .name(this.name)
-                .birthDate(this.birthday)
-                .phoneNumber(this.phoneNumber)
-                .pwdQuestion(this.pwdQuestion)
-                .pwdAnswer(this.pwdAnswer)
-                .build();
-    }
 
     public String getBirthDate() {
         return this.birthday.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

@@ -33,8 +33,9 @@ public class Member {
     private LocalDate birthDate;
     @Column(name = "phone_number")
     private String phoneNumber;
-    @Column(name = "pwd_question")
-    private Integer pwdQuestion;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pwd_question", referencedColumnName = "id")
+    private PwdQuestion pwdQuestion;
     @Column(name = "pwd_answer")
     private String pwdAnswer;
     @Column(name = "cash")
