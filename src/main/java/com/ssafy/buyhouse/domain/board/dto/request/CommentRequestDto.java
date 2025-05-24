@@ -16,20 +16,15 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 public class CommentRequestDto {
 
-    private Long id;
     private String comment;
-    private LocalDateTime createdDate;
     // private String member; 멤버 추가후 수정
     private Board board;
 
     public static Comment toEntity(CommentRequestDto  commentRequestDto) {
-        return new Comment();
-        /*return Comment.builder()
-                .id(commentRequestDto.getId())
+        return Comment.builder()
                 .comment(commentRequestDto.getComment())
-                .createdDate(commentRequestDto.getCreatedDate())
-                // .member(commentRequestDto.getMember())
                 .board(commentRequestDto.getBoard())
-                .build();*/
+                //.member(commentRequestDto.getMember())
+                .build();
     }
 }

@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 public class OwnedHouseListResponseDto {
 
     private List<OwnedHouseResponseDto> ownedHouseList;
-    private Integer totalOwnedPrice;
-    private Integer totalCurrentPrice;
-    private Integer totalPriceDifference;
-    private Double meanPriceDifferenceRate;
+    private Integer totalOwnedPrice;  // 총 취득가격
+    private Integer totalCurrentPrice; // 총 평가가격
+    private Integer totalPriceDifference; // 총 취득가 대비 증감맥
+    private Double meanPriceDifferenceRate; // 총 취득가 대비 증감율
 
     public static OwnedHouseListResponseDto from(List<OwnedHouseResponseDto> houseList) {
         // 총 소유 가격, 총 현재 가격, 총 증감액 계산

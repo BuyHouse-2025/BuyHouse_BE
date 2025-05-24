@@ -17,12 +17,14 @@ public class PostResponseDto {
 
     private String title;
     private String name;
-    private LocalDateTime creatTime;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedAt;
 
     public static PostResponseDto from(Board board) {
         return PostResponseDto.builder()
                 .title(board.getTitle())
-                .creatTime(board.getCreatedAt())
+                .createdDate(board.getCreatedAt())
+                .modifiedAt(board.getModifiedAt())
                 .build();
     }
 }

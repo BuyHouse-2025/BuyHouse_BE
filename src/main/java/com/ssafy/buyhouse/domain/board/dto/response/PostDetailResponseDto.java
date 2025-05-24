@@ -17,7 +17,8 @@ public class PostDetailResponseDto {
     private String title;
     private String content;
     private String name; // member 넣으면 String으로
-    private LocalDateTime creatTime;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedAt;
     private List<CommentResponseDto> comments;
 
     public static PostDetailResponseDto from(Board board) {
@@ -26,8 +27,9 @@ public class PostDetailResponseDto {
                 .content(board.getContent())
                 //  .name(board.getmember().getname())
                 .name(board.getMember())
-                .creatTime(board.getCreatedAt())
                 .comments(board.getComments().stream().map(CommentResponseDto::from).collect(Collectors.toList()))
+                .createdDate(board.getCreatedAt())
+                .modifiedAt(board.getModifiedAt())
                 .build();
 
     }
