@@ -33,7 +33,7 @@ public class BoardService {
         return boards.map(board ->
                 PostResponseDto.builder()
                         .title(board.getTitle())
-                        .name(board.getMember()) // 맴버넣으면 board.getMember().getName()
+                        .name(board.getMember().getName()) // 맴버넣으면 board.getMember().getName()
                         .build());
     }
 
@@ -45,7 +45,7 @@ public class BoardService {
         return Searchboards.map(board ->
                 PostResponseDto.builder()
                         .title(board.getTitle())
-                        .name(board.getMember()) // 맴버넣으면 board.getMember().getName()
+                        .name(board.getMember().getName()) // 맴버넣으면 board.getMember().getName()
                         .build());
     }
 

@@ -35,6 +35,8 @@ public class HouseDetailResponseDto {
     private int preschool;
     private int priSchool;
     private int pubSchool;
+    private int naverMinDeal;
+    private int naverMaxDeal;
     private int predictPrice;
 
     private List<HouseDealResponseDto> deals;
@@ -65,8 +67,10 @@ public class HouseDetailResponseDto {
                 .preschool(d.getPreschool())
                 .priSchool(d.getPriSchool())
                 .pubSchool(d.getPubSchool())
-                .predictPrice(d.getPredictPrice())
+                .naverMinDeal(d.getNaverMinDeal())
+                .naverMaxDeal(d.getNaverMaxDeal())
                 .deals(dealResponseDtos)
+                .predictPrice(d.getPredictPrice())
                 .build();
     }
 

@@ -2,6 +2,7 @@ package com.ssafy.buyhouse.domain.board.domain;
 
 
 import com.ssafy.buyhouse.domain.common.BaseTime;
+import com.ssafy.buyhouse.domain.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,11 +31,11 @@ public class Board extends BaseTime {
     @OrderBy("id asc")
     private List<Comment> comments;
 
-//    @JoinColumn
-//    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     // 회원 가입 후 변경
-    @Column
-    public String member;
+    public Member member;
+
 
 
 }
