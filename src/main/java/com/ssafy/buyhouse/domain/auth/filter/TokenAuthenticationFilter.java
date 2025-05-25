@@ -102,6 +102,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private Authentication getAuthentication(String authHeader) throws AuthenticationException {
+        System.out.println(authHeader);
         String tokenFromHeader = TokenProvider.getTokenFromHeader(authHeader);
         String claims = TokenProvider.getClaims(tokenFromHeader);
         if(claims == null) throw new AuthenticationException("토큰값이 잘못되었습니다");

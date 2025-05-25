@@ -40,6 +40,7 @@ public class MemberController {
     //회원정보 조회 - 자산
     @GetMapping
     public ResponseEntity<MemberResponse> getMember(@LoginUser Member member){
+        System.out.println("조회");
         OwnedHouseListResponseDto ownedHouse = houseService.searchOwnedHouse(member.getId());
         return ResponseEntity.ok().body(MemberResponse.from(member, ownedHouse.getTotalCurrentPrice()));
     }
