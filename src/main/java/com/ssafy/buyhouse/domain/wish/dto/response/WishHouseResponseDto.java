@@ -16,7 +16,6 @@ public class WishHouseResponseDto {
     private String roadNm;
     private String roadNmBonbun;
     private String roadNmBubun;
-    private int predictPrice;
 
     public static WishHouseResponseDto from(WishHouse wishHouse) {
         return WishHouseResponseDto.builder()
@@ -24,7 +23,6 @@ public class WishHouseResponseDto {
                 .roadNm(wishHouse.getHouseInfo().getRoadNm())
                 .roadNmBonbun(wishHouse.getHouseInfo().getRoadNmBonbun())
                 .roadNmBubun(wishHouse.getHouseInfo().getRoadNmBubun())
-                .predictPrice(wishHouse.getHouseInfo().getDetailInfo().getPredictPrice())
                 .build();
     }
 

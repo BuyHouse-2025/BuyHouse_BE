@@ -20,14 +20,14 @@ public class HouseDetailInfo {
     @Column(name = "apt_seq")
     private String aptSeq;
 
-    @Column(name = "minArea", precision = 10, scale = 2)
-    private BigDecimal minArea;
+    @Column(name = "minArea")
+    private double minArea;
 
-    @Column(name = "maxArea", precision = 10, scale = 2)
-    private BigDecimal maxArea;
+    @Column(name = "maxArea")
+    private double maxArea;
 
-    @Column(name = "representativeArea", precision = 10, scale = 2)
-    private BigDecimal representativeArea;
+    @Column(name = "representativeArea")
+    private double representativeArea;
 
     @Column
     private int floorAreaRatio;
@@ -68,7 +68,7 @@ public class HouseDetailInfo {
     @Column(name = "naver_maxDeal")
     private int naverMaxDeal;
 
-    @Column(name = "predict_price")
-    private int predictPrice;
-
+    @Column
+    private int build;
+    
 }

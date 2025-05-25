@@ -21,9 +21,9 @@ public class HouseDetailResponseDto {
     private String roadNmBubun;
     private String aptNm;
     private int buildYear;
-    private BigDecimal minArea;
-    private BigDecimal maxArea;
-    private BigDecimal representativeArea;
+    private Double minArea;
+    private Double maxArea;
+    private Double representativeArea;
     private int floorAreaRatio;
     private int parking;
     private int bus;
@@ -37,7 +37,6 @@ public class HouseDetailResponseDto {
     private int pubSchool;
     private int naverMinDeal;
     private int naverMaxDeal;
-    private int predictPrice;
 
     private List<HouseDealResponseDto> deals;
 
@@ -70,7 +69,6 @@ public class HouseDetailResponseDto {
                 .naverMinDeal(d.getNaverMinDeal())
                 .naverMaxDeal(d.getNaverMaxDeal())
                 .deals(dealResponseDtos)
-                .predictPrice(d.getPredictPrice())
                 .build();
     }
 

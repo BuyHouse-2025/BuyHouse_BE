@@ -7,6 +7,7 @@ import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -23,8 +24,17 @@ public class OwnedHouse extends BaseTime {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "apt_seq", referencedColumnName = "apt_seq", nullable = false)
     private HouseInfo houseInfo;
+    
+    @Column(name = "use_area")
+    private int useArea;  // 평형
+
+    @Column(name = "floor")
+    private int floor;  // 층수
+    
+    @Column(nullable = false)
+    private int ownedPrice; // 구매 가격
 
     @Column(nullable = false)
-    private int ownedPrice;
+    private int currentPrice; // 현재 가격
 
 }

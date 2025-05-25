@@ -1,6 +1,7 @@
 package com.ssafy.buyhouse.domain.estate.controller;
 
 import com.ssafy.buyhouse.domain.auth.annotation.LoginUser;
+import com.ssafy.buyhouse.domain.estate.dto.request.PredictPriceRequestDto;
 import com.ssafy.buyhouse.domain.estate.dto.request.SearchRequestDto;
 import com.ssafy.buyhouse.domain.estate.dto.response.HouseDetailResponseDto;
 import com.ssafy.buyhouse.domain.estate.dto.response.HouseResponseDto;
@@ -37,8 +38,10 @@ public class HouseController {
 
     // 부동산 구매하기
     @PostMapping("/{aptSeq}/purchase")
-    public ResponseEntity<?> Postpurchase(@PathVariable String aptSeq, @LoginUser Member member) { // 유저 정보 추가하고 수정
-        String result = houseService.purchaseHouse(aptSeq, member);
+    public ResponseEntity<?> Postpurchase(
+            @PathVariable String aptSeq, @LoginUser Member member,
+            @RequestBody PredictPriceRequestDto predictPriceRequestDto) { // 유저 정보 추가하고 수정
+        String result = houseService.purchaseHouse(aptSeq, member, predictPriceRequestDto);
         return ResponseEntity.ok().body(result);
     }
 

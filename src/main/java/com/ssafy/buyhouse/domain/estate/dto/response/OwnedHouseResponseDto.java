@@ -32,11 +32,11 @@ public class OwnedHouseResponseDto {
         return (double) (ownedPrice - currentPrice) / 100;
     }
 
-    public static OwnedHouseResponseDto from(OwnedHouse ownedHouse) {
+    public static OwnedHouseResponseDto from(OwnedHouse ownedHouse ) {
         return OwnedHouseResponseDto.builder()
                 .aptNm(ownedHouse.getHouseInfo().getAptNm())
                 .ownedPrice(ownedHouse.getOwnedPrice())
-                .currentPrice(ownedHouse.getHouseInfo().getDetailInfo().getPredictPrice())
+//                .currentPrice(ownedHouse.getHouseInfo().getDetailInfo().getPredictPrice())
                 .purchaseDate(ownedHouse.getCreatedAt())
                 .build();
     }

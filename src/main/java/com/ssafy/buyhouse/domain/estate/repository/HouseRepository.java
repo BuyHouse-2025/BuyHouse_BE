@@ -13,15 +13,17 @@ import java.util.List;
 public interface HouseRepository extends JpaRepository<HouseInfo, String> {
 
     @Query("""
-        SELECT h
-          FROM HouseInfo h
-         WHERE (:aptNm IS NULL OR h.aptNm LIKE CONCAT('%', :aptNm, '%'))
-           AND ((:minPrice IS NULL AND :maxPrice IS NULL) 
-               OR (:minPrice IS NOT NULL  AND :maxPrice IS NOT NULL 
-                       AND h.detailInfo.predictPrice BETWEEN :minPrice AND :maxPrice))
-           AND (:minSquare IS NULL 
-                   OR (h.detailInfo.minArea <= (:minSquare * 3.3058) AND h.detailInfo.maxArea >= (:minSquare * 3.3058)))
-                   """)
+  SELECT h
+    FROM HouseInfo h
+   WHERE (:aptNm IS NULL OR h.aptNm LIKE CONCAT('%', :aptNm, '%'))
+     AND ((:minPrice IS NULL AND :maxPrice IS NULL)
+       OR (:minPrice IS NOT NULL AND :maxPrice IS NOT NULL
+           AND h.detailInfo.naverMinDeal >= :minPrice
+           AND h.detailInfo.naverMaxDeal <= :maxPrice))
+     AND (:minSquare IS NULL
+       OR (h.detailInfo.minArea >= (:minSquare * 3.3058)
+        AND h.detailInfo.maxArea <= (:minSquare * 3.3058)))
+""")
     List<HouseInfo> findBySearchInfo(
             @Param("aptNm")     String  aptNm,
             @Param("minPrice")  Integer minPrice,

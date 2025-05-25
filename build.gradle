@@ -47,6 +47,9 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'     //
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'  //
+
+	// pytorch
+	implementation 'org.pytorch:pytorch_java_only:1.9.0'
 }
 
 tasks.named('test') {
