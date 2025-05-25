@@ -62,6 +62,13 @@ public class HouseDetailInfo {
     @Column(name = "PUB_SCHOOL")
     private int pubSchool;
 
+    @Column(name = "naver_minDeal")
+    private int naverMinDeal;
+
+    @Column(name = "naver_maxDeal")
+    private int naverMaxDeal;
+
     @Column(name = "predict_price")
     private int predictPrice;
+
 }
