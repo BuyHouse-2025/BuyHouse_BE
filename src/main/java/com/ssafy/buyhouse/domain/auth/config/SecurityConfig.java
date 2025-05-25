@@ -6,6 +6,7 @@ import com.ssafy.buyhouse.domain.auth.handler.LoginSuccessHandler;
 import com.ssafy.buyhouse.domain.auth.service.OAuth2UserCustomService;
 import com.ssafy.buyhouse.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -28,6 +29,8 @@ import java.util.List;
 public class SecurityConfig {
 
     private final OAuth2UserCustomService oAuth2UserService;
+    @Value("${app.redirect.uri}")
+    String uri;
 
     @Bean
     public BCryptPasswordEncoder encodePwd() {
@@ -42,16 +45,18 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOriginPatterns(List.of("*"));
+        corsConfiguration.setAllowedOrigins(List.of(uri)); // ⭐ 정확한 origin 명시!
         corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"));
         corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
-        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setAllowCredentials(true); // ✅ withCredentials를 위해 필수
         corsConfiguration.addExposedHeader("Content-Disposition");
+        corsConfiguration.addExposedHeader("Authorization");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
     }
+
 
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {

@@ -1,5 +1,6 @@
 package com.ssafy.buyhouse.domain.auth.handler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.buyhouse.domain.auth.util.JwtConstants;
 import com.ssafy.buyhouse.domain.auth.util.TokenProvider;
 import com.ssafy.buyhouse.domain.member.domain.Member;
@@ -15,6 +16,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -32,29 +35,27 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         String refreshToken = TokenProvider.generateToken(member, JwtConstants.REFRESH_EXP_TIME_MINUTES);
 
 
-        response.addHeader(JwtConstants.ACCESS, JwtConstants.JWT_TYPE + accessToken);
+        response.addHeader(JwtConstants.JWT_HEADER, JwtConstants.JWT_TYPE + accessToken);
         response.addHeader("Set-Cookie", TokenProvider.createCookie(refreshToken).toString());
 
         UserType type = member.getType();
         String redirectURL;
-        if(type == UserType.NORMAL){
-            redirectURL = UriComponentsBuilder.fromUriString(uri + "/auth/" + type.getLabel())
+        System.out.println(type);
+        if (type == UserType.NORMAL) {
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+        } else {
+            redirectURL = UriComponentsBuilder.fromUriString(uri)
                     .queryParam(JwtConstants.ACCESS, accessToken)
                     .build()
                     .encode(StandardCharsets.UTF_8)
                     .toUriString();
-        }
-        else{
-            redirectURL = UriComponentsBuilder.fromUriString(uri + "/auth/" + type.getLabel())
-                    .queryParam(JwtConstants.ACCESS, accessToken)
-                    .build()
-                    .encode(StandardCharsets.UTF_8)
-                    .toUriString();
+            clearAuthenticationAttributes(request);
+            getRedirectStrategy().sendRedirect(request, response, redirectURL);
         }
 
-        System.out.println(redirectURL);
-        clearAuthenticationAttributes(request);
-        getRedirectStrategy().sendRedirect(request, response, redirectURL);
+
+
 
     }
 }

@@ -89,7 +89,7 @@ public class TokenProvider {
 
         ResponseCookie cookie = ResponseCookie.from(cookieName, refreshToken)
                 .httpOnly(true)
-                .secure(false)
+                .secure(true)
                 .path("/")
                 .maxAge(Duration.ofDays(1))
                 .sameSite("Lax")
