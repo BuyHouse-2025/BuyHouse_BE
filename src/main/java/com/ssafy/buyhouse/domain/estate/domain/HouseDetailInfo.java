@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "house_detail_info")
 public class HouseDetailInfo {
 
     @Id
@@ -55,12 +56,6 @@ public class HouseDetailInfo {
 
     @Column(name = "PRESCHOOL")
     private int preschool;
-
-    @Column(name = "PRI_SCHOOL")
-    private int priSchool;
-
-    @Column(name = "PUB_SCHOOL")
-    private int pubSchool;
 
     @Column(name = "naver_minDeal")
     private int naverMinDeal;

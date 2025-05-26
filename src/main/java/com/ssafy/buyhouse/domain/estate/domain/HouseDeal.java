@@ -11,20 +11,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
+@Table(name = "housedeals")
 public class HouseDeal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "no")
+    private Long no;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "apt_seq", referencedColumnName = "apt_seq")
     private HouseInfo houseInfo;
 
-    @Column(name = "apt_dong")
-    private String aptDong;
-
-    @Column
+    @Column(name = "floor")
     private String floor;
 
     @Column(name = "deal_year")

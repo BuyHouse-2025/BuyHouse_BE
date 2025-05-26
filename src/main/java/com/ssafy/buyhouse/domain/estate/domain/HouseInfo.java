@@ -18,6 +18,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "houseinfos")
 public class HouseInfo {
 
     @Id
@@ -33,7 +34,7 @@ public class HouseInfo {
     @Column(name = "umd_nm")
     private String umdNm;
 
-    @Column
+    @Column(name = "jibun")
     private String jibun;
 
     @Column(name = "road_nm_sgg_cd")
@@ -54,10 +55,10 @@ public class HouseInfo {
     @Column(name = "build_year")
     private int buildYear;
 
-    @Column
+    @Column(name = "latitude")
     private String latitude;
 
-    @Column
+    @Column(name = "longitude")
     private String longitude;
 
     @OneToOne(cascade = ALL, fetch = LAZY, orphanRemoval = true)

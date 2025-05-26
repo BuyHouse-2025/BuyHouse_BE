@@ -64,8 +64,6 @@ public class HouseDetailResponseDto {
                 .convenience(d.getConvenience())
                 .infant(d.getInfant())
                 .preschool(d.getPreschool())
-                .priSchool(d.getPriSchool())
-                .pubSchool(d.getPubSchool())
                 .naverMinDeal(d.getNaverMinDeal())
                 .naverMaxDeal(d.getNaverMaxDeal())
                 .deals(dealResponseDtos)
