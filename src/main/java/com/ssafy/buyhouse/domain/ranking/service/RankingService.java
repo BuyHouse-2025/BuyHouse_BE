@@ -38,7 +38,8 @@ public class RankingService {
                                 .mapToLong(OwnedHouseResponseDto::getCurrentPrice)
                                 .sum();
                         Long totalAsset = member.getCash() + houseTotal;
-                        return new MemberRanking(member, totalAsset, 0);
+                        Double roi = dto.getMeanPriceDifferenceRate();
+                        return new MemberRanking(member, totalAsset, 0, roi);
                     }).sorted((a, b) -> Long.compare(b.getTotalAsset(), a.getTotalAsset()))
                     .toList();
 
@@ -51,7 +52,8 @@ public class RankingService {
     }
 
     public List<MemberRanking> getRanking(){
-        return memberRankingRepository.findAll(Sort.by(Sort.Direction.ASC, "ranking"));
+        long count = memberRankingRepository.count();
+        return memberRankingRepository.findAll(Sort.by(Sort.Direction.ASC, "ranking")).subList(0, (int) Math.min(7,count));
     }
 
     public MemberPercentileResponseDto calculateMemberPercentile(Member member) {

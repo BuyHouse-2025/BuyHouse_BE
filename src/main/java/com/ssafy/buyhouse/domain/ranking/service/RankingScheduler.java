@@ -35,8 +35,8 @@ public class RankingScheduler {
                             .sum();
 
                     Long totalAsset = member.getCash() + houseTotal;
-
-                    return new MemberRanking(member, totalAsset, 0);
+                    Double roi = dto.getMeanPriceDifferenceRate();
+                    return new MemberRanking(member, totalAsset, 0, roi);
                 }).sorted((a, b) -> Long.compare(b.getTotalAsset(), a.getTotalAsset()))
                 .toList();
 
