@@ -95,7 +95,8 @@ public class SecurityConfig {
                                 "/api/estate/**",
                                 "/api/users",
                                 "/api/board",
-                                "/api/board/**"
+                                "/api/board/**",
+                                "/api/dongcode"
                                 // 로그인 없이 쓸 수 있는 api들
                         ).permitAll()
                         .requestMatchers("/api/**").authenticated()
