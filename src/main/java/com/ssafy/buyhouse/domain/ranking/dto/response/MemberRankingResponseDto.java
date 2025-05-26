@@ -6,14 +6,16 @@ public record MemberRankingResponseDto(
         String memberId,
         String name,
         Long totalAsset,
-        Integer ranking
+        Integer ranking,
+        Double roi
 ) {
     public static MemberRankingResponseDto from(MemberRanking ranking) {
         return new MemberRankingResponseDto(
                 ranking.getMember().getId(),
                 ranking.getMember().getName(),
                 ranking.getTotalAsset(),
-                ranking.getRanking()
+                ranking.getRanking(),
+                ranking.getRoi()
         );
     }
 }
