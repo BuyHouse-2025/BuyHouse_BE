@@ -22,7 +22,6 @@ public class HouseDealResponseDto {
 
     public static HouseDealResponseDto from(HouseDeal houseDeal) {
         return HouseDealResponseDto.builder()
-                .aptDong(houseDeal.getAptDong())
                 .floor(houseDeal.getFloor())
                 .dealYear(houseDeal.getDealYear())
                 .dealMonth(houseDeal.getDealMonth())
