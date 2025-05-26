@@ -19,7 +19,6 @@ import static jakarta.persistence.FetchType.LAZY;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "houseinfos")
 public class HouseInfo {
 
     @Id
