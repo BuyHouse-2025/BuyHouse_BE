@@ -1,23 +1,22 @@
 package com.ssafy.buyhouse.domain.estate.service;
 
-import com.ssafy.buyhouse.domain.estate.domain.HouseDetailInfo;
 import com.ssafy.buyhouse.domain.estate.domain.HouseInfo;
 import com.ssafy.buyhouse.domain.estate.domain.OwnedHouse;
+import com.ssafy.buyhouse.domain.estate.dto.request.MarkerRequestDto;
 import com.ssafy.buyhouse.domain.estate.dto.request.PredictPriceRequestDto;
 import com.ssafy.buyhouse.domain.estate.dto.request.SearchRequestDto;
-import com.ssafy.buyhouse.domain.estate.dto.response.HouseDetailResponseDto;
-import com.ssafy.buyhouse.domain.estate.dto.response.HouseResponseDto;
-import com.ssafy.buyhouse.domain.estate.dto.response.OwnedHouseListResponseDto;
-import com.ssafy.buyhouse.domain.estate.dto.response.OwnedHouseResponseDto;
-import com.ssafy.buyhouse.domain.estate.repository.HouseDealRepository;
+import com.ssafy.buyhouse.domain.estate.dto.response.*;
 import com.ssafy.buyhouse.domain.estate.repository.HouseRepository;
 import com.ssafy.buyhouse.domain.estate.repository.OwnedHouseRepository;
 import com.ssafy.buyhouse.domain.member.domain.Member;
 import com.ssafy.buyhouse.domain.model.service.ModelService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,18 +30,42 @@ public class HouseService {
     private final OwnedHouseRepository ownedHouseRepository;
     private final ModelService modelService;
 
+    // 부동산 맵 조회 - 마커
+    public List<MarkerResponseDto> findBymarker(MarkerRequestDto markerRequestDto) {
+        List<HouseInfo> houseList = houseRepository.findByLatitudeBetweenAndLongitudeBetween(
+                markerRequestDto.getMinLat(),
+                markerRequestDto.getMaxLat(),
+                markerRequestDto.getMinLng(),
+                markerRequestDto.getMaxLng()
+        );
+
+        return houseList.stream()
+                .map(h -> MarkerResponseDto.builder()
+                        .aptSeq(h.getAptSeq())
+                        .aptNm(h.getAptNm())
+                        .lat(h.getLatitude())
+                        .lng(h.getLongitude())
+                        .build())
+                .toList();
+    }
+
+
     // 부동산 검색 - 이름,가격,평형
     public List<HouseResponseDto> searchName(SearchRequestDto searchRequestDto) {
+        Pageable page10 = PageRequest.of(0, 10);
 
-        List<HouseInfo> houseinfos =  houseRepository.findBySearchInfo(
+        Page<HouseInfo> page = houseRepository.findBySearchInfo(
                 searchRequestDto.getAptNm(),
                 searchRequestDto.getMinPrice(),
                 searchRequestDto.getMaxPrice(),
                 searchRequestDto.getMinSquare(),
-                searchRequestDto.getMaxSquare()
-                );
+                searchRequestDto.getMaxSquare(),
+                page10
+        );
 
-        return houseinfos.stream().map(HouseResponseDto::from)
+        // getContent() 으로 리스트만 꺼내서 DTO로 매핑
+        return page.getContent().stream()
+                .map(HouseResponseDto::from)
                 .collect(Collectors.toList());
     }
 
