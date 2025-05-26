@@ -13,6 +13,7 @@ import java.util.List;
 import static jakarta.persistence.CascadeType.ALL;
 import static jakarta.persistence.FetchType.LAZY;
 
+@Table(name = "houseinfos")
 @Entity
 @Getter
 @Builder

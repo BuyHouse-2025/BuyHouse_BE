@@ -143,23 +143,6 @@ public class MemberService {
     }
 
     @Transactional
-    public void changePassword(String memberId, MemberUpdatePwdRequest memberUpdatePwdRequest) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
-
-        if (!passwordEncoder.matches(memberUpdatePwdRequest.passwordOrigin(), member.getPassword())) {
-            throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
-        }
-
-        if(!memberUpdatePwdRequest.passwordNew().equals(memberUpdatePwdRequest.passwordNewCheck())){
-            throw new IllegalArgumentException("비밀번호 확인이 일치하지 않습니다.");
-        }
-
-        String encodedNewPassword = passwordEncoder.encode(memberUpdatePwdRequest.passwordNew());
-        member.setPassword(encodedNewPassword);
-    }
-
-    @Transactional
     public void deleteByEntity(Member member) {
         System.out.println("삭제 : " + member.getId());
         memberRepository.deleteById(member.getId());

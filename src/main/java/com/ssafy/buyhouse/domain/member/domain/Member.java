@@ -3,6 +3,7 @@ package com.ssafy.buyhouse.domain.member.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssafy.buyhouse.domain.estate.domain.OwnedHouse;
+import com.ssafy.buyhouse.domain.interest.domain.Interest;
 import com.ssafy.buyhouse.domain.wish.domain.WishHouse;
 import jakarta.persistence.*;
 import lombok.*;
@@ -51,6 +52,10 @@ public class Member {
     @OneToMany(cascade = CascadeType.ALL,
             mappedBy = "member", orphanRemoval = true)
     private List<WishHouse> wishHouses = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "member", orphanRemoval = true)
+    private List<Interest> Interest = new ArrayList<>();
+
 
     public String getBirthDate() {
         return this.birthDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
