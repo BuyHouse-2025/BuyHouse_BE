@@ -1,11 +1,13 @@
 package com.ssafy.buyhouse.domain.estate.controller;
 
 import com.ssafy.buyhouse.domain.auth.annotation.LoginUser;
+import com.ssafy.buyhouse.domain.estate.dto.request.MarkerRequestDto;
 import com.ssafy.buyhouse.domain.estate.dto.request.PredictPriceRequestDto;
 import com.ssafy.buyhouse.domain.estate.dto.request.SearchRequestDto;
 import com.ssafy.buyhouse.domain.estate.dto.response.HouseDetailResponseDto;
 import com.ssafy.buyhouse.domain.estate.dto.response.HouseResponseDto;
 import com.ssafy.buyhouse.domain.estate.dto.response.OwnedHouseListResponseDto;
+import com.ssafy.buyhouse.domain.estate.dto.response.MarkerResponseDto;
 import com.ssafy.buyhouse.domain.estate.service.HouseService;
 import com.ssafy.buyhouse.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,14 @@ import java.util.List;
 public class HouseController {
 
     private final HouseService houseService;
+
+    // 지도에서 아파트 조회 마커
+    @PostMapping("/maker")
+    public ResponseEntity<List<MarkerResponseDto>> PostMarkerHouse(@RequestBody MarkerRequestDto markerRequestDto) {
+        List<MarkerResponseDto> markerList = houseService.findBymarker(markerRequestDto);
+        return ResponseEntity.ok().body(markerList);
+    }
+
 
     // 부동산 검색 - 이름,가격,평형
     @PostMapping

@@ -19,8 +19,8 @@ public class HouseResponseDto {
     private String roadNmbubun;
     private String aptNm;
     private int buildYear;
-    private String latitude;
-    private String longitude;
+    private double latitude;
+    private double longitude;
 
     public static HouseResponseDto from(HouseInfo houseInfo) {
         return HouseResponseDto.builder()
