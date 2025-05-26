@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/estate/wish")
+@RequestMapping("/api/estate/wish")
 public class WishController {
     private final WishService wishService;
 
