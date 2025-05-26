@@ -23,11 +23,14 @@ public class MemberRanking extends BaseTime{
     private Long totalAsset;
     @Column(name = "ranking")
     private Integer ranking;
+    @Column(name = "roi")
+    private Double roi;
 
-    public MemberRanking(Member member, Long totalAsset, int i) {
+    public MemberRanking(Member member, Long totalAsset, int i, Double roi) {
         this.member = member;
         this.totalAsset = totalAsset;
         this.ranking = i;
+        this.roi = roi;
     }
 
 }

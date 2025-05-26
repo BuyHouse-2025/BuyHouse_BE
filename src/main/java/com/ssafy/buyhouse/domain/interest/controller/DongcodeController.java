@@ -1,7 +1,7 @@
 package com.ssafy.buyhouse.domain.interest.controller;
 
-import com.ssafy.buyhouse.domain.interest.domain.Dongcode;
 import com.ssafy.buyhouse.domain.interest.dto.response.CoordinateResponse;
+import com.ssafy.buyhouse.domain.interest.dto.response.DongcodeResponse;
 import com.ssafy.buyhouse.domain.interest.repository.DongcodeRepository;
 import com.ssafy.buyhouse.domain.interest.service.KakaoMapService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +21,13 @@ public class DongcodeController {
     private final KakaoMapService kakaoMapService;
 
     private final DongcodeRepository dongcodeRepository;
+
+/*    @GetMapping
+    public List<DongcodeResponse> getAllDongcodes() {
+        return dongcodeRepository.findAll().stream()
+                .map(DongcodeResponse::from)
+                .toList();
+    }*/
 
     @GetMapping("/sido")
     public List<String> getSidoList() {

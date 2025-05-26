@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/estate")
+@RequestMapping("/api/estate")
 public class HouseController {
 
     private final HouseService houseService;

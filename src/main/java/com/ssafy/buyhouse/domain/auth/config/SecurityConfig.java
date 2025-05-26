@@ -91,7 +91,8 @@ public class SecurityConfig {
                                 "/css/**", "/js/**", "/img/**",
                                 "/login", "/user/login", "/user/signup",
                                 "/oauth2/**", "/api/login/**", "/auth/**",
-                                "/api/users/recovery/**"
+                                "/api/users/recovery/**",
+                                "/api/estate/**"
                                 // 로그인 없이 쓸 수 있는 api들
                         ).permitAll()
                         .requestMatchers("/api/**").authenticated()
