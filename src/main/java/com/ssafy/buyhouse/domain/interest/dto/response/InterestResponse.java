@@ -1,9 +1,16 @@
 package com.ssafy.buyhouse.domain.interest.dto.response;
 
+import com.ssafy.buyhouse.domain.interest.domain.Dongcode;
+import com.ssafy.buyhouse.domain.interest.domain.Interest;
+
 public record InterestResponse(
-        String id,
+        Integer id,
         String sido,
         String gugun,
         String dong
 ) {
+    public static InterestResponse from(Interest interest){
+        Dongcode dongcode = interest.getDongcode();
+        return new InterestResponse(interest.getId(), dongcode.getSido(), dongcode.getGugun(), dongcode.getDong());
+    }
 }
