@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/estate")
+@RequestMapping("api/estate")
 public class HouseController {
 
     private final HouseService houseService;
