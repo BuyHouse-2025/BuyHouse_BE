@@ -56,10 +56,10 @@ public class HouseInfo {
     private int buildYear;
 
     @Column(name = "latitude")
-    private String latitude;
+    private double latitude;
 
     @Column(name = "longitude")
-    private String longitude;
+    private double longitude;
 
     @OneToOne(cascade = ALL, fetch = LAZY, orphanRemoval = true)
     @PrimaryKeyJoinColumn(name = "apt_seq")
