@@ -1,20 +1,20 @@
 package com.ssafy.buyhouse.domain.member.controller;
 
 import com.ssafy.buyhouse.domain.auth.annotation.LoginUser;
+import com.ssafy.buyhouse.domain.auth.util.JwtConstants;
+import com.ssafy.buyhouse.domain.auth.util.TokenProvider;
 import com.ssafy.buyhouse.domain.estate.dto.response.OwnedHouseListResponseDto;
 import com.ssafy.buyhouse.domain.estate.service.HouseService;
 import com.ssafy.buyhouse.domain.mail.service.MailService;
 import com.ssafy.buyhouse.domain.member.domain.Member;
 import com.ssafy.buyhouse.domain.member.domain.PwdQuestion;
 import com.ssafy.buyhouse.domain.member.dto.reqeust.*;
-import com.ssafy.buyhouse.domain.member.dto.response.ErrorResponse;
-import com.ssafy.buyhouse.domain.member.dto.response.MemberFindIdResponse;
-import com.ssafy.buyhouse.domain.member.dto.response.MemberFindPwdResponse;
-import com.ssafy.buyhouse.domain.member.dto.response.MemberResponse;
+import com.ssafy.buyhouse.domain.member.dto.response.*;
 import com.ssafy.buyhouse.domain.member.service.MemberService;
 import com.ssafy.buyhouse.domain.member.service.PwdQuestionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +35,13 @@ public class MemberController {
     public ResponseEntity<?> getPwdQuestions(){
         List<PwdQuestion> pwdQuestionList = pwdQuestionService.findAll();
         return ResponseEntity.ok().body(pwdQuestionList);
+    }
+
+    //회원정보 조회
+    @GetMapping("/details")
+    public ResponseEntity<MemberResponseInfo> getMemberInfo(@LoginUser Member member){
+        System.out.println("조회");
+        return ResponseEntity.ok().body(MemberResponseInfo.from(member));
     }
 
     //회원정보 조회 - 자산
@@ -64,7 +71,13 @@ public class MemberController {
         }
 
         memberService.updateMember(memberUpdateRequest, member);
-        return ResponseEntity.ok().build();
+        String accessToken = TokenProvider.generateToken(member, JwtConstants.ACCESS_EXP_TIME_MINUTES);
+        String refreshToken = TokenProvider.generateToken(member, JwtConstants.REFRESH_EXP_TIME_MINUTES);
+
+        return ResponseEntity.ok()
+                .header(JwtConstants.JWT_HEADER, "Bearer " + accessToken)
+                .header("Set-Cookie", TokenProvider.createCookie(refreshToken).toString())
+                .build();
     }
 
 

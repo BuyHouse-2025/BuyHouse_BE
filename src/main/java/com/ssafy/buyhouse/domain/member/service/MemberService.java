@@ -159,8 +159,10 @@ public class MemberService {
         member.setPassword(encodedNewPassword);
     }
 
+    @Transactional
     public void deleteByEntity(Member member) {
-        memberRepository.delete(member);
+        System.out.println("삭제 : " + member.getId());
+        memberRepository.deleteById(member.getId());
     }
 
     public boolean isPasswordSame(String pwd, String pwdCheck){
