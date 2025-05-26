@@ -3,6 +3,7 @@ package com.ssafy.buyhouse.domain.board.dto.response;
 import com.ssafy.buyhouse.domain.board.domain.Board;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 public class PostDetailResponseDto {
 
     private String title;

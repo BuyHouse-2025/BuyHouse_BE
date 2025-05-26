@@ -1,21 +1,24 @@
 package com.ssafy.buyhouse.domain.board.controller;
 
+import com.ssafy.buyhouse.domain.auth.annotation.LoginUser;
 import com.ssafy.buyhouse.domain.board.dto.request.PostRequestDto;
 import com.ssafy.buyhouse.domain.board.dto.response.PostDetailResponseDto;
 import com.ssafy.buyhouse.domain.board.dto.response.PostResponseDto;
 import com.ssafy.buyhouse.domain.board.service.BoardService;
+import com.ssafy.buyhouse.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/board")
+@RequestMapping("/api/board")
 @RequiredArgsConstructor
 public class BoardController {
 
@@ -38,8 +41,8 @@ public class BoardController {
     }
 
     // 단일 게시물 상세보기 -> 댓글 추가 완료 / 페이징 미완
-    @GetMapping("/{id}" )
-    public ResponseEntity<PostDetailResponseDto> getPost(@PathVariable long id) {
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PostDetailResponseDto> getPost(@PathVariable Long id) {
         PostDetailResponseDto postDetailResponseDto = boardService.findById(id);
         return ResponseEntity.ok().body(postDetailResponseDto);
     }
@@ -47,8 +50,8 @@ public class BoardController {
 
     // 게시물 작성
     @PostMapping("/save")
-    public ResponseEntity<?> savePost(@RequestBody PostRequestDto postRequestDto) {
-        String result =  boardService.save(postRequestDto);
+    public ResponseEntity<?> savePost(@RequestBody PostRequestDto postRequestDto, @LoginUser Member member) {
+        String result =  boardService.save(postRequestDto, member);
         return ResponseEntity.ok().body(result);
     }
 
@@ -56,16 +59,30 @@ public class BoardController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(
             @PathVariable Long id,
-            @RequestBody PostRequestDto postRequestDto) {
-
-        String result = boardService.update(id, postRequestDto);
-        return ResponseEntity.ok().body(result);
+            @RequestBody PostRequestDto postRequestDto,
+            @LoginUser Member member) {
+        try {
+            String result = boardService.update(id, postRequestDto, member);
+            return ResponseEntity.ok().body(result);
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     // 게시물 삭제
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deletePost(@PathVariable long id) {
-        String result = boardService.delete(id);
-        return ResponseEntity.ok().body(result);
+    public ResponseEntity<?> deletePost(
+            @PathVariable long id,
+            @LoginUser Member member) {
+
+        try{
+            String result = boardService.delete(id, member);
+            return ResponseEntity.ok().body(result);
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 }

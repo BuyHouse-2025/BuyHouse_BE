@@ -23,5 +23,9 @@ public class Dongcode {
     private String gugun;
     @Column(name = "dong_name")
     private String dong;
+    @Column(name = "latitude")
+    private Double latitude;
+    @Column(name = "longtitude")
+    private Double longtitude;
 
 }

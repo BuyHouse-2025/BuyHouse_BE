@@ -92,7 +92,11 @@ public class SecurityConfig {
                                 "/login", "/user/login", "/user/signup",
                                 "/oauth2/**", "/api/login/**", "/auth/**",
                                 "/api/users/recovery/**",
-                                "/api/estate/**"
+                                "/api/estate/**",
+                                "/api/users",
+                                "/api/board",
+                                "/api/board/**",
+                                "/api/dongcode"
                                 // 로그인 없이 쓸 수 있는 api들
                         ).permitAll()
                         .requestMatchers("/api/**").authenticated()

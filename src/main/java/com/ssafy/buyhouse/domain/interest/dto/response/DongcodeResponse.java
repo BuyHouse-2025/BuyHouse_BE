@@ -10,12 +10,14 @@ public record DongcodeResponse(
         Double lat,
         Double lng
 ) {
-    /*public static DongcodeResponse from(Dongcode d) {
+    public static DongcodeResponse from(Dongcode d) {
         return new DongcodeResponse(
                 d.getDongCode(),
                 d.getSido(),
                 d.getGugun(),
-                d.getDong()
+                d.getDong(),
+                d.getLatitude(),
+                d.getLongtitude()
         );
-    }*/
+    }
 }

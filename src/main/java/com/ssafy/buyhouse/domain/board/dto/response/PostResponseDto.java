@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostResponseDto {
-
+    private Long id;
     private String title;
     private String name;
     private LocalDateTime createdDate;
@@ -22,6 +22,7 @@ public class PostResponseDto {
 
     public static PostResponseDto from(Board board) {
         return PostResponseDto.builder()
+                .id(board.getId())
                 .title(board.getTitle())
                 .createdDate(board.getCreatedAt())
                 .modifiedAt(board.getModifiedAt())

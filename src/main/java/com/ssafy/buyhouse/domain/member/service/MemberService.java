@@ -96,11 +96,13 @@ public class MemberService {
     }
 
     public Member findMemberById(String id) {
-        return memberRepository.findById(id).orElseThrow();
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 ID의 사용자가 존재하지 않습니다."));
     }
 
+
     public Member findMemberId(MemberFindIdRequest memberFindIdRequest) {
-        Member member = memberRepository.findByEmail(memberFindIdRequest.email()).orElseThrow();
+        Member member = memberRepository.findByEmail(memberFindIdRequest.email()).orElseThrow(() -> new IllegalArgumentException("해당 email의 사용자가 존재하지 않습니다."));
 
         if(member.getName().equals(memberFindIdRequest.name())
                 && member.getBirthDate().equals(memberFindIdRequest.getBirthDate())
