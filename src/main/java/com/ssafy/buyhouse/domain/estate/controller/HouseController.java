@@ -4,10 +4,7 @@ import com.ssafy.buyhouse.domain.auth.annotation.LoginUser;
 import com.ssafy.buyhouse.domain.estate.dto.request.MarkerRequestDto;
 import com.ssafy.buyhouse.domain.estate.dto.request.PredictPriceRequestDto;
 import com.ssafy.buyhouse.domain.estate.dto.request.SearchRequestDto;
-import com.ssafy.buyhouse.domain.estate.dto.response.HouseDetailResponseDto;
-import com.ssafy.buyhouse.domain.estate.dto.response.HouseResponseDto;
-import com.ssafy.buyhouse.domain.estate.dto.response.OwnedHouseListResponseDto;
-import com.ssafy.buyhouse.domain.estate.dto.response.MarkerResponseDto;
+import com.ssafy.buyhouse.domain.estate.dto.response.*;
 import com.ssafy.buyhouse.domain.estate.service.HouseService;
 import com.ssafy.buyhouse.domain.member.domain.Member;
 import lombok.RequiredArgsConstructor;
@@ -52,6 +49,7 @@ public class HouseController {
     public ResponseEntity<?> Postpurchase(
             @PathVariable String aptSeq, @LoginUser Member member,
             @RequestBody PredictPriceRequestDto predictPriceRequestDto) { // 유저 정보 추가하고 수정
+        System.out.println(member.getName());
         String result = houseService.purchaseHouse(aptSeq, member, predictPriceRequestDto);
         return ResponseEntity.ok().body(result);
     }

@@ -87,7 +87,7 @@ public class HouseService {
         // ① features 벡터 생성
         double[] features = makeFeatureVector(houseInfo, predictPriceRequestDto);
         // ② 원래 predict 호출
-        double predDouble = modelService.predict(features)[0];
+        double predDouble = modelService.predict(aptSeq, features)[0];
 
         int predInt = (int) Math.round(predDouble);
 
@@ -119,10 +119,11 @@ public class HouseService {
             // ① features 벡터 생성
             double[] features = makeFeatureVector(ownedHouse, year, month, day);
             // ② 원래 predict 호출
-            double predDouble = modelService.predict(features)[0];
+            double predDouble = modelService.predict(ownedHouse.getHouseInfo().getAptSeq(), features)[0];
 
             int predInt = (int) Math.round(predDouble);
             ownedHouse.setCurrentPrice(predInt);
+            System.out.println(ownedHouse.getCurrentPrice());
         }
         return OwnedHouseListResponseDto.from(ownedHouses
                 .stream().map(OwnedHouseResponseDto::from)

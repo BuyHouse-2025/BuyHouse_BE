@@ -17,7 +17,7 @@ public record DongcodeResponse(
                 d.getGugun(),
                 d.getDong(),
                 d.getLatitude(),
-                d.getLongtitude()
+                d.getLongitude()
         );
     }
 }

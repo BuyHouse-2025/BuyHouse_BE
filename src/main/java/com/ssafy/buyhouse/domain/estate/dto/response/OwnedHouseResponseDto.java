@@ -36,7 +36,7 @@ public class OwnedHouseResponseDto {
         return OwnedHouseResponseDto.builder()
                 .aptNm(ownedHouse.getHouseInfo().getAptNm())
                 .ownedPrice(ownedHouse.getOwnedPrice())
-//                .currentPrice(ownedHouse.getHouseInfo().getDetailInfo().getPredictPrice())
+                .currentPrice(ownedHouse.getCurrentPrice())
                 .purchaseDate(ownedHouse.getCreatedAt())
                 .build();
     }
