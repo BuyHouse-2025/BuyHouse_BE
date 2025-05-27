@@ -2,6 +2,7 @@ package com.ssafy.buyhouse.domain.board.controller;
 
 import com.ssafy.buyhouse.domain.auth.annotation.LoginUser;
 import com.ssafy.buyhouse.domain.board.dto.request.PostRequestDto;
+import com.ssafy.buyhouse.domain.board.dto.response.CommentResponseDto;
 import com.ssafy.buyhouse.domain.board.dto.response.PostDetailResponseDto;
 import com.ssafy.buyhouse.domain.board.dto.response.PostResponseDto;
 import com.ssafy.buyhouse.domain.board.service.BoardService;

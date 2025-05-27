@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/board/comments")
+@RequestMapping("/api/board/comments")
 public class CommentController {
     private final CommentService commentService;
 
     // 댓글 작성
-    @PostMapping("/{id}")
+    @PostMapping
     public ResponseEntity<String> postComment(
-            @PathVariable Long id,
             @RequestBody CommentRequestDto commentRequestDto) {
-        String result = commentService.addComment(id, commentRequestDto);
+        System.out.println(commentRequestDto.getBoardId() + " " + commentRequestDto.getComment() + " " + commentRequestDto.getName());
+        String result = commentService.addComment(commentRequestDto);
         return ResponseEntity.ok().body(result);
     }
 
