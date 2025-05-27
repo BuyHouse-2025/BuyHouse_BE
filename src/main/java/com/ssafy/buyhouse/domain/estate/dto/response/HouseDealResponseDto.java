@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class HouseDealResponseDto {
 
-    private String aptDong;
     private String floor;
     private int dealYear;
     private int dealMonth;

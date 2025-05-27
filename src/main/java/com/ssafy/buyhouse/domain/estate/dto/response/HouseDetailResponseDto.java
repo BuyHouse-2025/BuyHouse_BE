@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 @Getter
 public class HouseDetailResponseDto {
 
+    private String umdNm;
+    private String jibun;
     private String roadNm;
     private String roadNmBonbun;
     private String roadNmBubun;
@@ -47,6 +49,8 @@ public class HouseDetailResponseDto {
                 .collect(Collectors.toList());
 
         return HouseDetailResponseDto.builder()
+                .umdNm(hi.getUmdNm())
+                .jibun(hi.getJibun())
                 .aptNm(hi.getAptNm())
                 .roadNm(hi.getRoadNm())
                 .roadNmBonbun(hi.getRoadNmBonbun())
