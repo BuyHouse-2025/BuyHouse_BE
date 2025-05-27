@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CommentResponseDto {
 
+    private Long id;
     private String comment;
     private String name;
     private LocalDateTime createdDate;
@@ -21,8 +22,9 @@ public class CommentResponseDto {
 
     public static CommentResponseDto from(Comment comment) {
         return CommentResponseDto.builder()
+                .id(comment.getId())
                 .comment(comment.getComment())
-                //.name(comment.getMember.getName()) // 멤버 추가후 수정
+                .name(comment.getMember().getName()) // 멤버 추가후 수정
                 .createdDate(comment.getCreatedAt())
                 .modifiedAt(comment.getModifiedAt())
                 .build();
