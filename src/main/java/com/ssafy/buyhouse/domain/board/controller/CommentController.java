@@ -16,7 +16,6 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<String> postComment(
             @RequestBody CommentRequestDto commentRequestDto) {
-        System.out.println(commentRequestDto.getBoardId() + " " + commentRequestDto.getComment() + " " + commentRequestDto.getName());
         String result = commentService.addComment(commentRequestDto);
         return ResponseEntity.ok().body(result);
     }
