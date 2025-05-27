@@ -2,7 +2,9 @@ package com.ssafy.buyhouse.domain.interest.controller;
 
 import com.ssafy.buyhouse.domain.auth.annotation.LoginUser;
 import com.ssafy.buyhouse.domain.interest.domain.Interest;
+import com.ssafy.buyhouse.domain.interest.dto.request.DeleteInterestRequest;
 import com.ssafy.buyhouse.domain.interest.dto.request.DeleteInterestsRequest;
+import com.ssafy.buyhouse.domain.interest.dto.request.InterestRequest;
 import com.ssafy.buyhouse.domain.interest.dto.response.InterestResponse;
 import com.ssafy.buyhouse.domain.interest.dto.response.InterestsResponse;
 import com.ssafy.buyhouse.domain.interest.service.InterestService;
@@ -19,16 +21,16 @@ public class InterestController {
     private final InterestService interestService;
 
     // 관심지역 추가
-    @PostMapping("/{dongCode}")
-    public ResponseEntity<?> addInterestedCity(@LoginUser Member member, @PathVariable("dongCode") String dongCodeId){
-        Interest interest = interestService.addInterest(dongCodeId, member);
+    @PostMapping
+    public ResponseEntity<?> addInterestedCity(@LoginUser Member member, @RequestBody InterestRequest interestRequest){
+        Interest interest = interestService.addInterest(interestRequest.dongcode(), member);
         return ResponseEntity.ok().body(InterestResponse.from(interest));
     }
 
     // 관심지역 삭제
     @DeleteMapping()
-    public ResponseEntity<?> deleteInterestedCities(@LoginUser Member member, @RequestBody DeleteInterestsRequest deleteInterests){
-        interestService.deleteInterests(deleteInterests, member);
+    public ResponseEntity<?> deleteInterestedCities(@LoginUser Member member, @RequestBody DeleteInterestRequest deleteInterest){
+        interestService.deleteInterest(deleteInterest, member);
         return ResponseEntity.ok().body(null);
     }
 

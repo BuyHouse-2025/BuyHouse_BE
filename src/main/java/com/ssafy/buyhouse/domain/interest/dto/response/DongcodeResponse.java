@@ -3,7 +3,7 @@ package com.ssafy.buyhouse.domain.interest.dto.response;
 import com.ssafy.buyhouse.domain.interest.domain.Dongcode;
 
 public record DongcodeResponse(
-        String dongCode,
+        String dongcode,
         String sido,
         String gugun,
         String dong,

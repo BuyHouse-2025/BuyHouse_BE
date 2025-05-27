@@ -37,9 +37,6 @@ public class WishService {
 
     // 관심 부동산 조회 하기
     public List<WishHouseResponseDto> findAllWishHouse(Member member) {
-        // 멤버 생성후 수정
-//        Member member = memberRepository.findById(userId)
-//                .orElseThrow(() -> new EntityNotFoundException("회원이 없습니다. id=" + userId));
 
         List<WishHouse> wishHouses = wishRepository.findAllByMember(member);
 
@@ -49,11 +46,14 @@ public class WishService {
     }
 
     // 관심 부동산 해제 하기
-    public String delete(Long id, String memberId) throws Exception {
-        WishHouse wishHose = wishRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("관심 부동산 목록이 없습니다. id=" + id));
+    public String delete(String aptSeq, Member member) throws Exception {
 
-        if(!wishHose.getMember().getId().equals(memberId))
+        HouseInfo houseInfo = houseRepository.findById(aptSeq)
+                .orElseThrow(() -> new EntityNotFoundException("aptSeq가 잘못되었습니다."));
+        WishHouse wishHose = wishRepository.findByMemberAndHouseInfo(member, houseInfo)
+                .orElseThrow(() -> new EntityNotFoundException("관심 부동산 목록이 없습니다. id=" + aptSeq));
+
+        if(!wishHose.getMember().getId().equals(member.getId()))
             throw new IllegalAccessException("해당 사용자의 관심 부동산이 아닙니다.");
 
         wishRepository.delete(wishHose);

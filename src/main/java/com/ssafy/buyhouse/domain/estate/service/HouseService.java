@@ -131,9 +131,10 @@ public class HouseService {
     }
 
     // 보유 부동산 판매하기
-    public String SaleHouse(Long id, Member member) throws IllegalAccessException {
-        OwnedHouse ownedHouse = ownedHouseRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("해당 보유 부동산이 없습니다. id=" + id));
+    public String SaleHouse(String aptSeq, Member member) throws IllegalAccessException {
+        HouseInfo houseInfo = houseRepository.findById(aptSeq).orElseThrow(() -> new EntityNotFoundException("해당 부동산이 존재하지 않습니다."));
+        OwnedHouse ownedHouse = ownedHouseRepository.findByMemberAndHouseInfo(member, houseInfo)
+                .orElseThrow(() -> new EntityNotFoundException("해당 보유 부동산이 없습니다. id=" + aptSeq));
 
         if(!ownedHouse.getMember().getId().equals(member.getId()))
             throw new IllegalAccessException("해당 사용자가 보유한 부동산이 아닙니다.");
