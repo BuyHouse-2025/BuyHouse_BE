@@ -13,5 +13,4 @@ public class PredictPriceRequestDto {
     private int dealMonth;
     private int dealDay;
     private int excluUseAr;
-
 }

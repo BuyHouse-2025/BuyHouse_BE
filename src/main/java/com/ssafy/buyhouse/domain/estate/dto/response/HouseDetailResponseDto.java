@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 public class HouseDetailResponseDto {
-
+    private String aptSeq;
     private String umdNm;
     private String jibun;
     private String roadNm;
@@ -49,6 +49,7 @@ public class HouseDetailResponseDto {
                 .collect(Collectors.toList());
 
         return HouseDetailResponseDto.builder()
+                .aptSeq(hi.getAptSeq())
                 .umdNm(hi.getUmdNm())
                 .jibun(hi.getJibun())
                 .aptNm(hi.getAptNm())

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class WishHouseResponseDto {
-
+    private String aptSeq;
     private String aptNm;
     private String roadNm;
     private String roadNmBonbun;
@@ -19,6 +19,7 @@ public class WishHouseResponseDto {
 
     public static WishHouseResponseDto from(WishHouse wishHouse) {
         return WishHouseResponseDto.builder()
+                .aptSeq(wishHouse.getHouseInfo().getAptSeq())
                 .aptNm(wishHouse.getHouseInfo().getAptNm())
                 .roadNm(wishHouse.getHouseInfo().getRoadNm())
                 .roadNmBonbun(wishHouse.getHouseInfo().getRoadNmBonbun())

@@ -62,10 +62,10 @@ public class HouseController {
     }
 
     // 보유 부동산 판매하기
-    @DeleteMapping("/owned/{id}")
-    public ResponseEntity<?> DeleteOwnedHouse(@PathVariable long id, @LoginUser Member member) {
+    @DeleteMapping("/owned/{aptSeq}")
+    public ResponseEntity<?> DeleteOwnedHouse(@PathVariable String aptSeq, @LoginUser Member member) {
         try {
-            String result = houseService.SaleHouse(id, member);
+            String result = houseService.SaleHouse(aptSeq, member);
             return ResponseEntity.ok().body(result);
         } catch (IllegalAccessException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

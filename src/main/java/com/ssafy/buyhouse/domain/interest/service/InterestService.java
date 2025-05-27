@@ -32,19 +32,17 @@ public class InterestService {
     }
 
     @Transactional
-    public void deleteInterests(DeleteInterestsRequest deleteInterests, Member member) {
-        List<DeleteInterestRequest> interests = deleteInterests.interests();
+    public void deleteInterest(DeleteInterestRequest deleteInterest, Member member) {
+        Dongcode dong = dongcodeRepository.findById(deleteInterest.dongcode()).orElseThrow(() -> new IllegalArgumentException("동코드가 존재하지 않습니다"));
+        Interest interest = interestRepository.findByMemberAndDongcode(member, dong)
+                .orElseThrow(() -> new IllegalArgumentException("해당 관심지역이 없습니다."));
 
-        for (DeleteInterestRequest interestRequest : interests) {
-            Interest interest = interestRepository.findById(Long.valueOf(interestRequest.id()))
-                    .orElseThrow(() -> new IllegalArgumentException("해당 관심지역이 없습니다."));
-
-            if (interest.getMember().equals(member)) {
-                interestRepository.deleteById(Long.valueOf(interest.getId()));
-            } else {
-                throw new IllegalArgumentException("본인의 관심지역만 삭제할 수 있습니다.");
-            }
+        if (interest.getMember().equals(member)) {
+            interestRepository.deleteById(Long.valueOf(interest.getId()));
+        } else {
+            throw new IllegalArgumentException("본인의 관심지역만 삭제할 수 있습니다.");
         }
+
     }
 
 
