@@ -34,7 +34,7 @@ public class InterestController {
 
     // 관심지역 조회 (전체 by user)
     @GetMapping
-    public ResponseEntity<?> getAllInterestedCities(@LoginUser Member member){
+    public ResponseEntity<InterestsResponse> getAllInterestedCities(@LoginUser Member member){
         InterestsResponse interests = interestService.findAllByMember(member);
         return ResponseEntity.ok().body(interests);
     }

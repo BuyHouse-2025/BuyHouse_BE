@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +21,21 @@ public class ModelService {
         this.rt = rt;
     }
 
-    public double[] predict(double[] features) {
-        Map<String,Object> body = Map.of("instances", List.of(features));
+    public double[] predict(String aptSeq, double[] features) {
+        Object[] objects = new Object[21];
+        for (int i = 1; i <= 20; i++) {
+            objects[i] = features[i-1];
+        }
+        objects[0] = aptSeq;
+        List<Object[]> obj = new ArrayList<>();
+        obj.add(objects);
+
+        Map<String,Object> body = Map.of("instances", obj);
+
+        for (Map.Entry<String, Object> entry : body.entrySet()) {
+            //System.out.println(entry.getKey() + " " + entry.getValue());
+
+        }
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Map<String,Object>> req = new HttpEntity<>(body, headers);

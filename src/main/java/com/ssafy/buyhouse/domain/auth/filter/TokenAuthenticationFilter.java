@@ -108,6 +108,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if(claims == null) throw new AuthenticationException("토큰값이 잘못되었습니다");
         Member member = memberService.findMemberById(claims);
         PrincipalDetail principalDetail = new PrincipalDetail(member);
+        System.out.println(principalDetail.getName());
         return new UsernamePasswordAuthenticationToken(principalDetail, "", principalDetail.getAuthorities());
     }
 

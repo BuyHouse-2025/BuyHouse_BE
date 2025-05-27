@@ -7,10 +7,12 @@ public record InterestResponse(
         Integer id,
         String sido,
         String gugun,
-        String dong
+        String dong,
+        Double lat,
+        Double lng
 ) {
     public static InterestResponse from(Interest interest){
         Dongcode dongcode = interest.getDongcode();
-        return new InterestResponse(interest.getId(), dongcode.getSido(), dongcode.getGugun(), dongcode.getDong());
+        return new InterestResponse(interest.getId(), dongcode.getSido(), dongcode.getGugun(), dongcode.getDong(), dongcode.getLatitude(), dongcode.getLongitude());
     }
 }
