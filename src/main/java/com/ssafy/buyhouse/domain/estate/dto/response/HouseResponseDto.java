@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class HouseResponseDto {
-
     private String aptSeq;
     private String umdNm;
     private String jibun;
